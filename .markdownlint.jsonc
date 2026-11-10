@@ -1,0 +1,4 @@
+{
+  // Ticket and document URLs cannot be wrapped without breaking links.
+  "MD013": false
+}
