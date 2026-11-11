@@ -20,9 +20,10 @@ In scope:
 - `/v1/images/generations` and `/v1/images/edits` with `Qwen-Image-2.1`
 - `/v1/chat/completions` with `Qwen-Omni-30B-A3B-Instruct` (text in,
   text + audio out)
-- Gateway A/B: Istio first, then Praxis, same matrix
-- Both gateways with the EPP enabled, plus a direct-to-model control
-  (bypass), so gateway overhead and routing benefit are separated
+- Compare Istio and Praxis on the same ready workloads and EPP profiles
+- Both gateways with EPP enabled, plus a direct-to-model control (bypass). The
+  control measures the full path difference, including gateway, EPP,
+  transport and any change in backend selection (Section 5.3)
 
 Out of scope (tracked separately):
 
@@ -53,9 +54,10 @@ assumptions.
 | Image edit | `/v1/images/edits` | E2E, validated-PNG rate, dimensions, bytes |
 | Omni | `/v1/chat/completions` | TTFT, TTFA, TPOT estimate, text/audio gap, E2E |
 
-Every run also records: per-request pod attribution, routing
-distribution, valid/failed/missing-output counts, and optionally raw EPP
-scores with weighted contributions (`--epp-scores`).
+Each run records response outcomes and may include per-request pod
+attribution and raw EPP scores (`--epp-scores`) when the deployed path
+and log collection support them. Mark unavailable attribution or scores
+as unknown.
 
 Latency eligibility is already filtered: image runs count only
 base64 PNGs with a valid header; transcription runs exclude empty
@@ -90,23 +92,28 @@ These are the constraints that most affect the matrix design.
    and IHDR are validated. Pixel correctness, edit fidelity and
    prompt adherence need a sidecar (Section 6.4).
 6. **Scorer caveats are curated, not computed.** The dashboard joins
-   `scripts/profile_caveats.json` (verified as of 2026-10-22). Our plots
-   must join the same file and mark cells instead of ranking them.
+   `scripts/profile_caveats.json` (verified as of 2026-10-22). Use it as
+   a starting point and recheck its conclusions against the deployed
+   router before marking or ranking cells.
 7. **No curated caveats exist for `/v1/embeddings`.** Absence of a caveat
    is not evidence of support; treat embedding scorer results as
    *unverified* until we observe score data on the deployed router.
 
 ### 2.3 What we must not claim
 
-- That cache-aware or latency-predictor routing helps TTS, ASR or image
-  workloads on the current release. The router token estimator cannot
-  parse TTS bodies; there is no usable prefix signal; the latency
-  predictor needs a deployed sidecar pair and has no verified image
-  signal.
+- That cache-aware or latency-predictor routing helps a workload without
+  checking the deployed router, data producers and observed scores.
+  Router v0.11.0 and v1.0.0 could not estimate TTS input. PR #3712 merged
+  to upstream `main` on 2026-11-02 and added TTS input estimation to the
+  default estimate backend. Confirm the deployed image contains the fix
+  and that the estimate backend is configured. Pseudo-tokens support
+  approximate matching, not precise engine KV-block matching; latency
+  prediction also needs working sidecars and training samples.
 - That a faster response is a better response for media endpoints,
   without the validity counts and (optionally) the quality sidecar.
-- That Praxis is better or worse on a modality we could not attribute
-  to a backend pod, because per-pod distribution is then unknown.
+- That a Praxis result demonstrates a routing or pod-distribution effect
+  when backend attribution or EPP selection is unknown. Functional and
+  latency observations can still be reported with that limitation.
 
 ## 3. Matrix definition
 
@@ -114,7 +121,7 @@ These are the constraints that most affect the matrix design.
 
 | Dimension | Values | Notes |
 | --- | --- | --- |
-| Gateway | `istio`, `praxis` | Sequential, same matrix; Istio is the control |
+| Gateway | `istio`, `praxis` | Match workloads and configuration (e.g. same model, inputs, EPP profile and load); repeat comparisons in recorded blocks |
 | Routing mode | `epp` (profile header set), `default` (no header), `bypass` (direct to model service) | `bypass` isolates gateway overhead from routing |
 | Cell | 7 modality cells (4.2) | One endpoint and one model per cell |
 | Profile | Per-cell valid set (4.3) | Invalid cells are recorded, not ranked |
@@ -150,8 +157,10 @@ Rules:
 
 ### 3.3 Profile policy per cell
 
-Legend: **R** required, **O** optional/limited interpretation,
-**U** unverified, run as diagnostic only, **X** do not run.
+Legend: **R** = required, **O** = optional/limited interpretation,
+**U** = unverified, run as diagnostic only, **X** = do not run.
+
+Check that profiles and their scorer signals work before drawing conclusions.
 
 | Profile (built-in name) | tts | asr-batch | asr-stream | emb | img-gen | img-edit | omni |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -163,11 +172,11 @@ Legend: **R** required, **O** optional/limited interpretation,
 | `kvCacheUtilizationProfile` | O | O | O | X | O | O | R |
 | `noHitLruProfile` | O | O | O | X | O | O | R |
 | `endpointAttributeWeightProfile` | O | O | O | O | O | O | O |
-| `prefixCacheProfile` | X | U | U | X | U | U | R |
-| `latencyProfile` | X | U | U | X | U | U | R |
-| `contextLengthProfile` | X | U | U | X | U | U | R |
-| `tokenLoadProfile` | X | U | U | O | U | U | R |
-| `mmEmbeddingsCacheProfile` | X | U | U | X | X | U | R |
+| `prefixCacheProfile` | U | U | U | X | U | U | R |
+| `latencyProfile` | U | U | U | X | U | U | R |
+| `contextLengthProfile` | U | U | U | X | U | U | R |
+| `tokenLoadProfile` | U | U | U | O | U | U | R |
+| `mmEmbeddingsCacheProfile` | X | U | U | X | X | U | U |
 | `sessionAffinityProfile` | O | X | X | X | X | X | R |
 | `loraAffinityProfile` | X | X | X | X | X | X | O |
 | `topologyAffinityProfile` | X | X | X | X | X | X | O |
@@ -188,9 +197,18 @@ Combined profiles (`queueRunningProfile`, `activeQueueProfile`,
 `sessionQueueProfile`, ...) are only promoted from Wave 3 onward, after
 the single-scorer screen identifies which components matter.
 
-`U` cells are not waste: run each once per gateway to confirm the tool
-reports "unknown/unsupported" and to capture the evidence for the
-claims appendix. Do not promote them.
+For TTS on v0.11.0 or v1.0.0, exclude the four token-dependent
+profiles above. On a build containing #3712, keep them diagnostic until
+the configured producer and resulting scores have been checked. For
+latency, also verify sidecars and training samples; for prefix matching,
+describe the approximate nature of pseudo-tokens. Revalidate the curated
+caveats against the deployed image: the tool's caveat file reflects an
+earlier verification date and does not establish live support.
+
+Run `U` cells only when the diagnostic has a defined signal to inspect;
+record the configuration and observations. The tool may not flag every
+unsupported case. Promote a cell only after verifying the signal and
+documenting the reason; otherwise retain it as unverified.
 
 ### 3.4 Load and sample sizing
 
@@ -237,19 +255,20 @@ baseline, screen profiles, promote finalists. Only the specifics differ.
 - Expected: distribution scorers differentiate pods; TTFA is the
   sensitive metric; E2E is dominated by synthesis and less sensitive to
   routing.
-- Watch: the token estimator cannot parse TTS bodies, so `prefix`,
-  `latency`, `tokenLoad` and `contextLength` are **X**. If a profile
-  appears to win by a large margin, suspect uneven pod warm-up, not
-  routing.
+- Watch: v0.11.0 and v1.0.0 cannot estimate TTS input. For builds with
+  #3712, check the estimate backend and verify the candidate signals as
+  described in 3.3. Investigate differences in warm-up and load before
+  attributing a large result to routing.
 - Optional quality check: synthesize, then transcribe with the ASR cell
   and compute WER against the prompt; record it as a sidecar metric, not
   a tool metric.
 
 ### 4.2 ASR batch (`/v1/audio/transcriptions`, model TBD)
 
-- **Decision needed before W1.** Pick one Whisper-class model served on
-  the same stack, pin the version, and record it. Until then the cell is
-  blocked, not estimated.
+- **Decision needed before ASR W0.** Pick a compatible transcription
+  model, pin the version, and record its batch and streaming support.
+  Until then mark both ASR cells blocked and proceed with ready cells;
+  if only batch is supported, proceed with batch and mark streaming blocked.
 - Fixture clips: clean 5 s, clean 20 s, noisy 20 s, accented 20 s,
   non-English 15 s, and one 30 s clip near the streaming boundary.
   Vary duration deliberately; ASR latency tracks audio length.
@@ -257,8 +276,8 @@ baseline, screen profiles, promote finalists. Only the specifics differ.
   gateways.
 - Watch: with the passthrough parser the EPP may not extract workload
   data (issue #3963; PR #3964 pending), so distribution scorers may be
-  blind. Run the `U` profiles once to document it, and rely on the
-  gateway-overhead and load-spread results instead.
+  unavailable/blind. Inspect the actual producer and score output; record
+  unverified signals and use path and load-spread results where supported.
 - Empty transcripts are excluded from latency by design; report the
   empty rate next to every latency number.
 
@@ -300,9 +319,9 @@ baseline, screen profiles, promote finalists. Only the specifics differ.
 - Only validated base64 PNGs count; report unverified and URL-only
   responses separately. A gateway that downgrades `response_format` or
   rewrites the body will show up here, which is itself a finding.
-- Watch: diffusion cost dominates, so gateway overhead is a small
-  fraction of E2E. Run the `bypass` control to measure it; do not
-  conclude "no gateway impact" from E2E alone.
+- Watch: diffusion cost can dominate E2E. The `bypass` control measures
+  the combined path difference, not gateway overhead alone; a small E2E
+  difference does not establish that gateway overhead is negligible.
 - `kvCache` is limited (stage-0 usage only) and `mmcache` is structurally
   not useful for text-prompt generation.
 
@@ -323,9 +342,10 @@ baseline, screen profiles, promote finalists. Only the specifics differ.
 
 ### 4.7 Omni (`/v1/chat/completions`, `Qwen-Omni-30B-A3B-Instruct`)
 
-- This is the only cell where the full scorer set is legitimate:
-  `prefix`, `latency`, `sessionAffinity`, `mmcache` and context-length
-  all have a defensible signal for chat.
+- Chat can provide inputs for several scorer paths, but each still needs
+  the configured producer and an observable signal. The current text-only
+  input does not establish a reusable multimodal-embedding cache signal;
+  keep `mmcache` unverified for this cell.
 - Requires `transformers` in the benchmark venv for tokenization.
 - Two sub-rows worth separating:
   - `omni-text`: `--modalities text` (TTFT only)
@@ -342,7 +362,7 @@ baseline, screen profiles, promote finalists. Only the specifics differ.
 
 ### 5.1 Freeze the variables
 
-Before W1 on Istio and again before the Praxis rerun, capture into
+Before W0 on Istio and again before the Praxis rerun (before each subsequent comparison block), capture into
 `experiments/meta/<wave>.json`:
 
 - cluster, namespace, node pool, GPU type and count
@@ -386,15 +406,25 @@ For every cell, at L2 only:
 - `default`: through the gateway with no `EPP-Profile` header
 - `epp`: through the gateway with an explicit profile
 
-Then:
+Interpret matched comparisons as follows:
 
-- gateway overhead = `default` - `bypass`
-- routing benefit = `epp` - `default` (same gateway)
-- Praxis delta = `praxis` - `istio`, compared cell by cell at the same
-  routing mode
+- `default` minus `bypass` is the **combined path difference**. The
+  paths differ in gateway, EPP, transport and possibly backend selection;
+  do not label the result gateway overhead.
+- Explicit `epp` profile minus `default` on the same gateway compares
+  two configured routing paths. Confirm the live default profile, and
+  use EPP scores and selections to investigate any observed difference.
+  A latency difference alone does not prove a routing benefit.
+- Praxis minus Istio compares the gateway paths for the same workload,
+  profile, backend configuration and client location; report remaining
+  differences such as authentication, transport and run time.
 
-Do not compute the Praxis delta against `bypass`; that mixes gateway and
-routing effects.
+To estimate gateway overhead separately, add a verified gateway route
+that bypasses EPP to the same model backend, and compare it with direct
+access using matched protocol, network location, backend selection and
+workload. If those conditions cannot be matched, report only the
+combined path difference and its confounders. Record the actual default
+configuration before calling it round robin.
 
 ### 5.4 Quality sidecars (optional, but cheap insurance)
 
@@ -412,16 +442,17 @@ generated audio to confirm it is not noise.
 
 ### 5.5 Ordering and randomization
 
-- Run Istio and Praxis in separate blocks, but interleave `default` and
-  `epp` within a block.
+- Compare gateways (Istio, Praxis) in repeated, time-near blocks where feasible. 
+  Alternate gateway order across blocks and interleave `default` and `epp` within
+  each block; record ordering and cluster changes.
 - Randomize profile order within each repeat, and log the order. The
   dashboard already shows an execution-order note for profiles measured
   inside a suite run; our own plots must carry the same caveat.
-- Discard the first 5 requests per run as warm-up (or run them and
-  exclude by request index; the per-request JSON makes this possible).
+- Send a few warm-up requests before each measured run. Don’t include them in the 
+  results.
 - Never run two cells or two gateways concurrently on the same GPU pool.
-- If a run has more than 1% failures, fix the environment before
-  interpreting latency. Failures and latency are one result.
+- If more than 1% of requests fail, investigate before interpreting latency. 
+  Report failures alongside latency.
 
 ### 5.6 Decision rules
 
@@ -429,7 +460,8 @@ A gateway difference is only reported when all of the following hold:
 
 - Same cell, model version, fixture set, load and routing mode
 - At least 100 valid requests per side for tail claims (or mark the
-  claim directional)
+  claim directional). Note that 100 requests still gives a rough p99: the 
+  slowest 1% is only about one request.
 - Median or p99 difference larger than 5% / 10% respectively, with
   non-overlapping bootstrap 95% confidence intervals
 - No increase in failure rate above 0.5 percentage points
@@ -466,10 +498,12 @@ Driver rules:
   or combined profiles and `--run` cannot be combined with it.
 - Use `--profiles a,b,c` only for screens where every profile is in the
   built-in map.
-- Add `--epp-scores` for W3/W4 only; it needs EPP JSON logging with
-  `--v=4` and PyYAML, and it adds log volume.
-- Use `--no-backend-lookup` only for local sanity runs, never for matrix
-  data.
+- Collect EPP scores during W0/W1 preflight for representative routing
+  checks and for W3/W4 comparisons where available. `--epp-scores` needs
+  EPP JSON logging with `--v=4` and PyYAML, and adds log volume.
+- For direct bypass controls, disable gateway lookup if it is not
+  applicable and record the direct backend selection separately. For
+  gateway runs, retain lookup and mark unresolved attribution as unknown.
 - Emit one JSON per (wave, gateway, cell, profile, load, repeat) with the
   run ID convention in Appendix C.
 
@@ -506,8 +540,8 @@ recomputed, cannot be bootstrapped, and cannot exclude warm-up.
 
 | ID | Figure | Encoding | Purpose |
 | --- | --- | --- | --- |
-| F1 | Cross-matrix heatmap | rows cells, cols profiles, color = Δp99 vs `default`, facets Istio and Praxis | Headline: where routing helps |
-| F2 | Gateway overhead dumbbell | per cell, p50 and p99 for bypass / Istio / Praxis | Is the gateway acceptable |
+| F1 | Cross-matrix heatmap | rows cells, cols profiles, color = Δp99 vs `default`, facets Istio and Praxis | Show differences with uncertainty and caveats |
+| F2 | Path comparison | per cell, p50 and p99 for bypass / Istio / Praxis | Compare complete paths and disclose confounders |
 | F3 | Load curves | p99 and failure rate vs concurrency, one line per profile, small multiples per cell | Where the knee is |
 | F4 | Profile ranking bars | p50/p99 with bootstrap CIs, n annotated, per cell and gateway | Defensible ranking |
 | F5 | Pod share | stacked bars per cell/profile with uniform-share line and CV | Is load actually spread |
@@ -518,9 +552,10 @@ recomputed, cannot be bootstrapped, and cannot exclude warm-up.
 
 Rules for every figure:
 
-- Annotate n and the operability status from `profile_caveats.json`.
-- Hatch or gray out `X` and `U` cells; never let an unsupported profile
-  win a color scale.
+- Annotate valid n and the operability status checked against the live
+  router, using `profile_caveats.json` as a starting point.
+- Hatch or gray out excluded and still-unverified cells; do not rank
+  profiles without verified signals.
 - Use Δp99 as a ratio to the cell's `default`, not raw milliseconds
   across cells; raw milliseconds make image cells dominate everything.
 - Put tool SHA, router version and run IDs in the caption.
@@ -533,31 +568,35 @@ claim. The rest support the narrative.
 
 - Compare cells within a row, profiles within a column, gateways
   between panels.
-- If `default` and `epp` overlap in CI, the honest result is "routing
-  has no measurable effect at this load".
-- If a cell's routing distribution is uniform and CV is near zero for
-  every profile, the gateway or service is load-balancing before the EPP
-  sees the request; that is a finding about the topology, not a scorer
-  result.
-- If `bypass` is much faster than both gateways, most of E2E is gateway
-  and transport, not model selection; report it before profile ranking.
+- If the interval for the `default` versus `epp` difference is too wide
+  to resolve the agreed effect, report an inconclusive comparison.
+- Uniform pod shares can result from ties, workload, or several routing
+  mechanisms. Inspect the topology and EPP selections before attributing
+  the pattern to any one component.
+- If `bypass` is faster, report the combined path difference and inspect
+  transport, gateway, EPP and backend selection before assigning a cause.
 - If exclusion rates differ across gateways, the latency comparison is
   invalid until the cause is understood (usually a changed
   `response_format` or a truncated stream).
 
 ## 7. Execution waves and gates
 
-| Wave | Days | Gate to proceed |
-| --- | --- | --- |
-| W0 Smoke | 0.5 | All 7 cells return ok on both gateways; pod attribution ≥95%; streaming events parse; Praxis container name known |
-| W1 Baseline | 2 | `default` vs `bypass` deltas are stable across two repeats; transcription model chosen |
-| W2 Screen | 2-3 | Required profiles distinguish or are shown to be flat; `U` profiles documented once |
-| W3 Finalists | 2-3 | Two finalists per cell; CIs computed; confounders recorded |
-| W4 Tail | 1-2 | High-load confirmation, interleaved gateways, claims appendix drafted |
+| Wave | Gate to proceed |
+| --- | --- |
+| W0 Smoke | Start with one ready, agreed workload through both gateways; verify valid results and EPP path, and record versions. Check attribution and streaming where applicable. Mark other cells blocked until prerequisites are ready. |
+| W1 Baseline | For each ready cell, run both gateways at L1/L2 with `default` and an available load-aware candidate, twice per combination; run the L2 bypass twice. Record outcomes and differences without assuming stability from two repeats. |
+| W2 Screen | For cells with a functional baseline on both gateways, check candidate signals and screen usable profiles; record unavailable or inconclusive results. |
+| W3 Finalists | Repeat up to two supported candidates per ready cell; record confounders and estimate differences where enough independent blocks exist. |
+| W4 Tail | Add load and repeats where feasible; qualify sparse p99 results and draft the claims appendix. |
 
-Sequencing is strict: complete Istio W0-W3, freeze the dataset, then run
-Praxis W0-W3 against it. Rerunning Istio after Praxis changes invalidates
-the control unless both are rerun in the same window.
+Choose and pin the ASR model before its W0 runs; it does not block W0 for
+other cells. For routing claims require verified EPP selection and at
+least 95% pod attribution for the relevant runs. If attribution remains
+unknown, mark it explicitly and keep functional and latency results
+separate from routing claims. Run the small baseline through both
+gateways before expanding the matrix. Alternate gateway order across
+subsequent blocks when feasible; record drift and repeat matched controls
+when the environment changes.
 
 ## 8. Deliverables and repo layout
 
@@ -594,13 +633,13 @@ Definition of done:
 | Risk | Impact | Mitigation |
 | --- | --- | --- |
 | Praxis attribution fails | No per-pod routing figures | W0 gate; fall back to EPP logs; declare unknown |
-| Transcription model undecided | Cell blocked | Decide before W1; treat as a hard dependency |
+| Transcription model undecided | ASR cells blocked | Decide before ASR W0; continue ready cells |
 | Router cannot parse media bodies | Misleading scorer results | Follow 4.3; do not promote `U` to finalists |
 | Image runs dominate budget | Matrix incomplete | Small N for images; lead with p50 and validity |
 | Cluster drift between gateways | False gateway delta | Freeze metadata; rerun controls; interleave |
 | Image/audio cache warmth | Biased E2E | Fixed fixtures, alternate two inputs, warm-up discard |
 | Builder or Helm overwrite between waves | Config hash mismatch | Snapshot ConfigMap per wave; verify before each wave |
-| p99 from small N | Overconfident tails | ≥100 valid requests for tail claims; label directional otherwise |
+| p99 from small N | Overconfident tails | Report valid N and tail observations; repeat independent blocks and qualify sparse estimates |
 | Tool version changes mid-matrix | Schema drift | Pin tool SHA; upgrade only between waves |
 
 ## 10. Open questions
@@ -672,7 +711,7 @@ cells:
     loads: [{ n: 100, c: 1 }, { n: 500, c: 8 }, { n: 1000, c: 16 }]
     profiles: [default, queueProfile, activeRequestProfile,
                runningRequestSizeProfile, loadAwareProfile]
-repeats: { screen: 1, finalist: 3, tail: 5 }
+repeats: { baseline: 2, screen: 1, finalist: 3, tail: 5 }
 ```
 
 ## Appendix C. Run ID convention
