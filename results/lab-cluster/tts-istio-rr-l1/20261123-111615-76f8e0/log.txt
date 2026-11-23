@@ -1,0 +1,56 @@
+  noScorers (no scorers): 30 requests, concurrency 1...
+
+Streaming results
+=================
+  Model:        bm-003
+  Endpoint:     http://127.0.0.1:8080/v1/audio/speech
+  EPP profile:  noScorers
+  Scorer:       no scorers
+  Output:       audio
+  Requests:     30 total, up to 1 concurrent
+  Responses:    30 valid, 0 failed, 0 missing requested output
+  Duration:     91.36 s  (0.33 requests/s)
+
+Latency (valid responses)
+-------------------------
+  Metric                                 N       Mean        P50        P99  Unit
+  -------------------------------------------------------------------------------
+  TTFA (first audio event)              30     466.13     317.35    2245.10  ms
+  Audio chunk gap                       85     910.19     782.59    2688.78  ms
+  End-to-end                            30    3045.30    2924.19    6136.76  ms
+
+Routing (all requests)
+----------------------
+  Pod                                                          Count   Share
+  --------------------------------------------------------------------------
+  qwen3-tts-v032-689976b5c5-s9lcj                                 16  53.3%
+  qwen3-tts-v032-replica-b-69cc48cfff-wcqpr                       14  46.7%
+
+EPP scoring
+-----------
+  EPP scores: 0 matched, 30 partial, 0 missing, 0 ambiguous
+    Weights: no scorers (endpoint-picker-epp / tts.yaml)
+    Per-request score tables: --debug; full decisions are saved with --output-json
+
+Latency by pod (valid responses)
+--------------------------------
+  qwen3-tts-v032-689976b5c5-s9lcj
+  Metric                                 N       Mean        P50        P99  Unit
+  -------------------------------------------------------------------------------
+  TTFA                                  16     355.16     307.59     671.05  ms
+  End-to-end                            16    2986.72    2701.17    6277.63  ms
+
+  qwen3-tts-v032-replica-b-69cc48cfff-wcqpr
+  Metric                                 N       Mean        P50        P99  Unit
+  -------------------------------------------------------------------------------
+  TTFA                                  14     592.95     350.00    2498.69  ms
+  End-to-end                            14    3112.24    2933.04    5137.74  ms
+
+
+Notes
+-----
+  TTFA and audio chunk gaps are client-observed from streamed SSE events.
+  Audio chunk gaps are a streaming proxy, not token-level ITL.
+  P99 with fewer than 100 valid requests is a rough tail indicator.
+
+Saved detailed JSON: /home/stadic/Projects/red_hat/voli_project/voli-scorer-evaluation/dashboard/data/runs/20261123-111615-76f8e0/profiles/noScorers.json
