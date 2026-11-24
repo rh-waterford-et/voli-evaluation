@@ -1,0 +1,2838 @@
+{
+  "run_id": "ffc2c41db10444389a58b4dc0d558cc8",
+  "profile": "tokenLoadProfile",
+  "scorer": "token-load-scorer (weight 1)",
+  "iterations": 30,
+  "concurrency": 1,
+  "duration_seconds": 59.64015474000189,
+  "valid_responses": 30,
+  "failed_responses": 0,
+  "missing_output_responses": 0,
+  "routing": {
+    "unknown": 30
+  },
+  "metrics": {
+    "ttft_ms": {
+      "n": 0,
+      "mean": null,
+      "p50": null,
+      "p99": null
+    },
+    "ttfo_ms": {
+      "n": 0,
+      "mean": null,
+      "p50": null,
+      "p99": null
+    },
+    "ttfa_ms": {
+      "n": 30,
+      "mean": 365.62764416642796,
+      "p50": 346.1977980041411,
+      "p99": 646.9670556228085
+    },
+    "tpot_estimate_ms": {
+      "n": 0,
+      "mean": null,
+      "p50": null,
+      "p99": null
+    },
+    "text_gap_ms": {
+      "n": 0,
+      "mean": null,
+      "p50": null,
+      "p99": null
+    },
+    "audio_gap_ms": {
+      "n": 85,
+      "mean": 572.1457701648915,
+      "p50": 522.8185429878067,
+      "p99": 1272.89720603614
+    },
+    "e2e_ms": {
+      "n": 30,
+      "mean": 1987.8010110992666,
+      "p50": 1932.8833085019141,
+      "p99": 2957.6081628767133
+    }
+  },
+  "results": [
+    {
+      "iteration": 1,
+      "request_id_sent": "bccc224c-355d-447b-ae16-d876ffb349fe",
+      "request_id_response": null,
+      "request_id_gateway": null,
+      "user_agent": "voli-stream-metrics/ffc2c41db10444389a58b4dc0d558cc8/1",
+      "pod": null,
+      "upstream": null,
+      "backend_source": null,
+      "status": "ok",
+      "error": null,
+      "http_status": 200,
+      "usage": {
+        "input_tokens": 9,
+        "output_tokens": 57,
+        "total_tokens": 66,
+        "input_token_details": {
+          "text_tokens": 9,
+          "audio_tokens": 0
+        }
+      },
+      "text": "",
+      "visible_text": "",
+      "e2e_ms": 3012.2579950111685,
+      "response_pod_header": null,
+      "ttft_ms": null,
+      "ttfo_ms": null,
+      "ttfa_ms": 676.5241810062435,
+      "text_chunks": 0,
+      "audio_chunks": 4,
+      "text_gap_ms": [],
+      "audio_gap_ms": [
+        1532.759117995738,
+        702.7030669996748,
+        100.00199799833354
+      ],
+      "client_text_tokens": 0,
+      "server_completion_tokens": 57,
+      "tpot_basis": "client text tokens",
+      "tpot_estimate_ms": null,
+      "missing_modalities": [],
+      "epp_scores": {
+        "status": "partial",
+        "decisions": [
+          {
+            "epp_pod": "endpoint-picker-epp-86856f88d9-r8nlv",
+            "request_id": "bccc224c-355d-447b-ae16-d876ffb349fe",
+            "timestamp": "2026-11-24T10:57:56.581827687Z",
+            "endpoints": [
+              {
+                "scores": {
+                  "tokenLoad": {
+                    "type": "token-load-scorer",
+                    "raw": 1,
+                    "weight": 1.0,
+                    "weighted": 1.0
+                  }
+                },
+                "selected": true,
+                "pod": "qwen3-tts-v032-689976b5c5-s9lcj",
+                "endpoint_id": "wetlab-ai/qwen3-tts-v032-689976b5c5-s9lcj-rank-0",
+                "weighted_total": null,
+                "computed_total": 1.0
+              },
+              {
+                "scores": {
+                  "tokenLoad": {
+                    "type": "token-load-scorer",
+                    "raw": 1,
+                    "weight": 1.0,
+                    "weighted": 1.0
+                  }
+                },
+                "selected": false,
+                "endpoint_id": "wetlab-ai/qwen3-tts-v032-replica-b-69cc48cfff-wcqpr-rank-0",
+                "pod": null,
+                "weighted_total": null,
+                "computed_total": 1.0
+              }
+            ],
+            "issues": [
+              "missing candidate totals",
+              "missing weighted total for wetlab-ai/qwen3-tts-v032-689976b5c5-s9lcj-rank-0",
+              "missing weighted total for wetlab-ai/qwen3-tts-v032-replica-b-69cc48cfff-wcqpr-rank-0"
+            ],
+            "status": "partial"
+          }
+        ]
+      },
+      "profile": "tokenLoadProfile",
+      "scorer": "token-load-scorer (weight 1)"
+    },
+    {
+      "iteration": 2,
+      "request_id_sent": "16ecea9b-69c4-40f1-beb0-918bbfb7a9e5",
+      "request_id_response": null,
+      "request_id_gateway": null,
+      "user_agent": "voli-stream-metrics/ffc2c41db10444389a58b4dc0d558cc8/2",
+      "pod": null,
+      "upstream": null,
+      "backend_source": null,
+      "status": "ok",
+      "error": null,
+      "http_status": 200,
+      "usage": {
+        "input_tokens": 9,
+        "output_tokens": 75,
+        "total_tokens": 84,
+        "input_token_details": {
+          "text_tokens": 9,
+          "audio_tokens": 0
+        }
+      },
+      "text": "",
+      "visible_text": "",
+      "e2e_ms": 2690.5920719873393,
+      "response_pod_header": null,
+      "ttft_ms": null,
+      "ttfo_ms": null,
+      "ttfa_ms": 354.9646199971903,
+      "text_chunks": 0,
+      "audio_chunks": 4,
+      "text_gap_ms": [],
+      "audio_gap_ms": [
+        1132.1520670026075,
+        644.7231099882629,
+        558.331303007435
+      ],
+      "client_text_tokens": 0,
+      "server_completion_tokens": 75,
+      "tpot_basis": "client text tokens",
+      "tpot_estimate_ms": null,
+      "missing_modalities": [],
+      "epp_scores": {
+        "status": "partial",
+        "decisions": [
+          {
+            "epp_pod": "endpoint-picker-epp-86856f88d9-r8nlv",
+            "request_id": "16ecea9b-69c4-40f1-beb0-918bbfb7a9e5",
+            "timestamp": "2026-11-24T10:57:59.280515135Z",
+            "endpoints": [
+              {
+                "scores": {
+                  "tokenLoad": {
+                    "type": "token-load-scorer",
+                    "raw": 1,
+                    "weight": 1.0,
+                    "weighted": 1.0
+                  }
+                },
+                "selected": false,
+                "endpoint_id": "wetlab-ai/qwen3-tts-v032-689976b5c5-s9lcj-rank-0",
+                "pod": null,
+                "weighted_total": null,
+                "computed_total": 1.0
+              },
+              {
+                "scores": {
+                  "tokenLoad": {
+                    "type": "token-load-scorer",
+                    "raw": 1,
+                    "weight": 1.0,
+                    "weighted": 1.0
+                  }
+                },
+                "selected": true,
+                "pod": "qwen3-tts-v032-replica-b-69cc48cfff-wcqpr",
+                "endpoint_id": "wetlab-ai/qwen3-tts-v032-replica-b-69cc48cfff-wcqpr-rank-0",
+                "weighted_total": null,
+                "computed_total": 1.0
+              }
+            ],
+            "issues": [
+              "missing candidate totals",
+              "missing weighted total for wetlab-ai/qwen3-tts-v032-689976b5c5-s9lcj-rank-0",
+              "missing weighted total for wetlab-ai/qwen3-tts-v032-replica-b-69cc48cfff-wcqpr-rank-0"
+            ],
+            "status": "partial"
+          }
+        ]
+      },
+      "profile": "tokenLoadProfile",
+      "scorer": "token-load-scorer (weight 1)"
+    },
+    {
+      "iteration": 3,
+      "request_id_sent": "65ac439d-3f9c-4c41-9317-a8010df0dc37",
+      "request_id_response": null,
+      "request_id_gateway": null,
+      "user_agent": "voli-stream-metrics/ffc2c41db10444389a58b4dc0d558cc8/3",
+      "pod": null,
+      "upstream": null,
+      "backend_source": null,
+      "status": "ok",
+      "error": null,
+      "http_status": 200,
+      "usage": {
+        "input_tokens": 9,
+        "output_tokens": 65,
+        "total_tokens": 74,
+        "input_token_details": {
+          "text_tokens": 9,
+          "audio_tokens": 0
+        }
+      },
+      "text": "",
+      "visible_text": "",
+      "e2e_ms": 1967.1657559956657,
+      "response_pod_header": null,
+      "ttft_ms": null,
+      "ttfo_ms": null,
+      "ttfa_ms": 342.21580099256244,
+      "text_chunks": 0,
+      "audio_chunks": 4,
+      "text_gap_ms": [],
+      "audio_gap_ms": [
+        921.11450000084,
+        500.73724100366235,
+        202.74261900340207
+      ],
+      "client_text_tokens": 0,
+      "server_completion_tokens": 65,
+      "tpot_basis": "client text tokens",
+      "tpot_estimate_ms": null,
+      "missing_modalities": [],
+      "epp_scores": {
+        "status": "partial",
+        "decisions": [
+          {
+            "epp_pod": "endpoint-picker-epp-86856f88d9-r8nlv",
+            "request_id": "65ac439d-3f9c-4c41-9317-a8010df0dc37",
+            "timestamp": "2026-11-24T10:58:01.970630995Z",
+            "endpoints": [
+              {
+                "scores": {
+                  "tokenLoad": {
+                    "type": "token-load-scorer",
+                    "raw": 1,
+                    "weight": 1.0,
+                    "weighted": 1.0
+                  }
+                },
+                "selected": true,
+                "pod": "qwen3-tts-v032-689976b5c5-s9lcj",
+                "endpoint_id": "wetlab-ai/qwen3-tts-v032-689976b5c5-s9lcj-rank-0",
+                "weighted_total": null,
+                "computed_total": 1.0
+              },
+              {
+                "scores": {
+                  "tokenLoad": {
+                    "type": "token-load-scorer",
+                    "raw": 1,
+                    "weight": 1.0,
+                    "weighted": 1.0
+                  }
+                },
+                "selected": false,
+                "endpoint_id": "wetlab-ai/qwen3-tts-v032-replica-b-69cc48cfff-wcqpr-rank-0",
+                "pod": null,
+                "weighted_total": null,
+                "computed_total": 1.0
+              }
+            ],
+            "issues": [
+              "missing candidate totals",
+              "missing weighted total for wetlab-ai/qwen3-tts-v032-689976b5c5-s9lcj-rank-0",
+              "missing weighted total for wetlab-ai/qwen3-tts-v032-replica-b-69cc48cfff-wcqpr-rank-0"
+            ],
+            "status": "partial"
+          }
+        ]
+      },
+      "profile": "tokenLoadProfile",
+      "scorer": "token-load-scorer (weight 1)"
+    },
+    {
+      "iteration": 4,
+      "request_id_sent": "24ae5328-297b-4118-ba61-62888612fb97",
+      "request_id_response": null,
+      "request_id_gateway": null,
+      "user_agent": "voli-stream-metrics/ffc2c41db10444389a58b4dc0d558cc8/4",
+      "pod": null,
+      "upstream": null,
+      "backend_source": null,
+      "status": "ok",
+      "error": null,
+      "http_status": 200,
+      "usage": {
+        "input_tokens": 9,
+        "output_tokens": 48,
+        "total_tokens": 57,
+        "input_token_details": {
+          "text_tokens": 9,
+          "audio_tokens": 0
+        }
+      },
+      "text": "",
+      "visible_text": "",
+      "e2e_ms": 1665.608130992041,
+      "response_pod_header": null,
+      "ttft_ms": null,
+      "ttfo_ms": null,
+      "ttfa_ms": 342.74854698742274,
+      "text_chunks": 0,
+      "audio_chunks": 3,
+      "text_gap_ms": [],
+      "audio_gap_ms": [
+        815.7712140091462,
+        506.76768500125036
+      ],
+      "client_text_tokens": 0,
+      "server_completion_tokens": 48,
+      "tpot_basis": "client text tokens",
+      "tpot_estimate_ms": null,
+      "missing_modalities": [],
+      "epp_scores": {
+        "status": "partial",
+        "decisions": [
+          {
+            "epp_pod": "endpoint-picker-epp-86856f88d9-r8nlv",
+            "request_id": "24ae5328-297b-4118-ba61-62888612fb97",
+            "timestamp": "2026-11-24T10:58:03.938156145Z",
+            "endpoints": [
+              {
+                "scores": {
+                  "tokenLoad": {
+                    "type": "token-load-scorer",
+                    "raw": 1,
+                    "weight": 1.0,
+                    "weighted": 1.0
+                  }
+                },
+                "selected": false,
+                "endpoint_id": "wetlab-ai/qwen3-tts-v032-689976b5c5-s9lcj-rank-0",
+                "pod": null,
+                "weighted_total": null,
+                "computed_total": 1.0
+              },
+              {
+                "scores": {
+                  "tokenLoad": {
+                    "type": "token-load-scorer",
+                    "raw": 1,
+                    "weight": 1.0,
+                    "weighted": 1.0
+                  }
+                },
+                "selected": true,
+                "pod": "qwen3-tts-v032-replica-b-69cc48cfff-wcqpr",
+                "endpoint_id": "wetlab-ai/qwen3-tts-v032-replica-b-69cc48cfff-wcqpr-rank-0",
+                "weighted_total": null,
+                "computed_total": 1.0
+              }
+            ],
+            "issues": [
+              "missing candidate totals",
+              "missing weighted total for wetlab-ai/qwen3-tts-v032-689976b5c5-s9lcj-rank-0",
+              "missing weighted total for wetlab-ai/qwen3-tts-v032-replica-b-69cc48cfff-wcqpr-rank-0"
+            ],
+            "status": "partial"
+          }
+        ]
+      },
+      "profile": "tokenLoadProfile",
+      "scorer": "token-load-scorer (weight 1)"
+    },
+    {
+      "iteration": 5,
+      "request_id_sent": "25802865-ad04-44dc-bc6e-9d29c8417108",
+      "request_id_response": null,
+      "request_id_gateway": null,
+      "user_agent": "voli-stream-metrics/ffc2c41db10444389a58b4dc0d558cc8/5",
+      "pod": null,
+      "upstream": null,
+      "backend_source": null,
+      "status": "ok",
+      "error": null,
+      "http_status": 200,
+      "usage": {
+        "input_tokens": 9,
+        "output_tokens": 64,
+        "total_tokens": 73,
+        "input_token_details": {
+          "text_tokens": 9,
+          "audio_tokens": 0
+        }
+      },
+      "text": "",
+      "visible_text": "",
+      "e2e_ms": 1887.602873990545,
+      "response_pod_header": null,
+      "ttft_ms": null,
+      "ttfo_ms": null,
+      "ttfa_ms": 343.2775999972364,
+      "text_chunks": 0,
+      "audio_chunks": 4,
+      "text_gap_ms": [],
+      "audio_gap_ms": [
+        935.7625400007237,
+        408.20332600560505,
+        200.0851939956192
+      ],
+      "client_text_tokens": 0,
+      "server_completion_tokens": 64,
+      "tpot_basis": "client text tokens",
+      "tpot_estimate_ms": null,
+      "missing_modalities": [],
+      "epp_scores": {
+        "status": "partial",
+        "decisions": [
+          {
+            "epp_pod": "endpoint-picker-epp-86856f88d9-r8nlv",
+            "request_id": "25802865-ad04-44dc-bc6e-9d29c8417108",
+            "timestamp": "2026-11-24T10:58:05.603429209Z",
+            "endpoints": [
+              {
+                "scores": {
+                  "tokenLoad": {
+                    "type": "token-load-scorer",
+                    "raw": 1,
+                    "weight": 1.0,
+                    "weighted": 1.0
+                  }
+                },
+                "selected": true,
+                "pod": "qwen3-tts-v032-689976b5c5-s9lcj",
+                "endpoint_id": "wetlab-ai/qwen3-tts-v032-689976b5c5-s9lcj-rank-0",
+                "weighted_total": null,
+                "computed_total": 1.0
+              },
+              {
+                "scores": {
+                  "tokenLoad": {
+                    "type": "token-load-scorer",
+                    "raw": 1,
+                    "weight": 1.0,
+                    "weighted": 1.0
+                  }
+                },
+                "selected": false,
+                "endpoint_id": "wetlab-ai/qwen3-tts-v032-replica-b-69cc48cfff-wcqpr-rank-0",
+                "pod": null,
+                "weighted_total": null,
+                "computed_total": 1.0
+              }
+            ],
+            "issues": [
+              "missing candidate totals",
+              "missing weighted total for wetlab-ai/qwen3-tts-v032-689976b5c5-s9lcj-rank-0",
+              "missing weighted total for wetlab-ai/qwen3-tts-v032-replica-b-69cc48cfff-wcqpr-rank-0"
+            ],
+            "status": "partial"
+          }
+        ]
+      },
+      "profile": "tokenLoadProfile",
+      "scorer": "token-load-scorer (weight 1)"
+    },
+    {
+      "iteration": 6,
+      "request_id_sent": "e48a6609-c178-4264-8167-0dc7b9eeb3ff",
+      "request_id_response": null,
+      "request_id_gateway": null,
+      "user_agent": "voli-stream-metrics/ffc2c41db10444389a58b4dc0d558cc8/6",
+      "pod": null,
+      "upstream": null,
+      "backend_source": null,
+      "status": "ok",
+      "error": null,
+      "http_status": 200,
+      "usage": {
+        "input_tokens": 9,
+        "output_tokens": 54,
+        "total_tokens": 63,
+        "input_token_details": {
+          "text_tokens": 9,
+          "audio_tokens": 0
+        }
+      },
+      "text": "",
+      "visible_text": "",
+      "e2e_ms": 1577.4731140118092,
+      "response_pod_header": null,
+      "ttft_ms": null,
+      "ttfo_ms": null,
+      "ttfa_ms": 346.9241380080348,
+      "text_chunks": 0,
+      "audio_chunks": 4,
+      "text_gap_ms": [],
+      "audio_gap_ms": [
+        829.2597569961799,
+        401.0266569966916,
+        0.1424610090907663
+      ],
+      "client_text_tokens": 0,
+      "server_completion_tokens": 54,
+      "tpot_basis": "client text tokens",
+      "tpot_estimate_ms": null,
+      "missing_modalities": [],
+      "epp_scores": {
+        "status": "partial",
+        "decisions": [
+          {
+            "epp_pod": "endpoint-picker-epp-86856f88d9-r8nlv",
+            "request_id": "e48a6609-c178-4264-8167-0dc7b9eeb3ff",
+            "timestamp": "2026-11-24T10:58:07.492605977Z",
+            "endpoints": [
+              {
+                "scores": {
+                  "tokenLoad": {
+                    "type": "token-load-scorer",
+                    "raw": 1,
+                    "weight": 1.0,
+                    "weighted": 1.0
+                  }
+                },
+                "selected": false,
+                "endpoint_id": "wetlab-ai/qwen3-tts-v032-689976b5c5-s9lcj-rank-0",
+                "pod": null,
+                "weighted_total": null,
+                "computed_total": 1.0
+              },
+              {
+                "scores": {
+                  "tokenLoad": {
+                    "type": "token-load-scorer",
+                    "raw": 1,
+                    "weight": 1.0,
+                    "weighted": 1.0
+                  }
+                },
+                "selected": true,
+                "pod": "qwen3-tts-v032-replica-b-69cc48cfff-wcqpr",
+                "endpoint_id": "wetlab-ai/qwen3-tts-v032-replica-b-69cc48cfff-wcqpr-rank-0",
+                "weighted_total": null,
+                "computed_total": 1.0
+              }
+            ],
+            "issues": [
+              "missing candidate totals",
+              "missing weighted total for wetlab-ai/qwen3-tts-v032-689976b5c5-s9lcj-rank-0",
+              "missing weighted total for wetlab-ai/qwen3-tts-v032-replica-b-69cc48cfff-wcqpr-rank-0"
+            ],
+            "status": "partial"
+          }
+        ]
+      },
+      "profile": "tokenLoadProfile",
+      "scorer": "token-load-scorer (weight 1)"
+    },
+    {
+      "iteration": 7,
+      "request_id_sent": "4a1412c3-cb3d-495b-8d66-374c3ee8a16e",
+      "request_id_response": null,
+      "request_id_gateway": null,
+      "user_agent": "voli-stream-metrics/ffc2c41db10444389a58b4dc0d558cc8/7",
+      "pod": null,
+      "upstream": null,
+      "backend_source": null,
+      "status": "ok",
+      "error": null,
+      "http_status": 200,
+      "usage": {
+        "input_tokens": 9,
+        "output_tokens": 81,
+        "total_tokens": 90,
+        "input_token_details": {
+          "text_tokens": 9,
+          "audio_tokens": 0
+        }
+      },
+      "text": "",
+      "visible_text": "",
+      "e2e_ms": 1882.4482429918135,
+      "response_pod_header": null,
+      "ttft_ms": null,
+      "ttfo_ms": null,
+      "ttfa_ms": 347.35932799230795,
+      "text_chunks": 0,
+      "audio_chunks": 5,
+      "text_gap_ms": [],
+      "audio_gap_ms": [
+        822.3171200079378,
+        302.6642600016203,
+        408.5771999962162,
+        1.2000199931208044
+      ],
+      "client_text_tokens": 0,
+      "server_completion_tokens": 81,
+      "tpot_basis": "client text tokens",
+      "tpot_estimate_ms": null,
+      "missing_modalities": [],
+      "epp_scores": {
+        "status": "partial",
+        "decisions": [
+          {
+            "epp_pod": "endpoint-picker-epp-86856f88d9-r8nlv",
+            "request_id": "4a1412c3-cb3d-495b-8d66-374c3ee8a16e",
+            "timestamp": "2026-11-24T10:58:09.072724835Z",
+            "endpoints": [
+              {
+                "scores": {
+                  "tokenLoad": {
+                    "type": "token-load-scorer",
+                    "raw": 1,
+                    "weight": 1.0,
+                    "weighted": 1.0
+                  }
+                },
+                "selected": true,
+                "pod": "qwen3-tts-v032-689976b5c5-s9lcj",
+                "endpoint_id": "wetlab-ai/qwen3-tts-v032-689976b5c5-s9lcj-rank-0",
+                "weighted_total": null,
+                "computed_total": 1.0
+              },
+              {
+                "scores": {
+                  "tokenLoad": {
+                    "type": "token-load-scorer",
+                    "raw": 1,
+                    "weight": 1.0,
+                    "weighted": 1.0
+                  }
+                },
+                "selected": false,
+                "endpoint_id": "wetlab-ai/qwen3-tts-v032-replica-b-69cc48cfff-wcqpr-rank-0",
+                "pod": null,
+                "weighted_total": null,
+                "computed_total": 1.0
+              }
+            ],
+            "issues": [
+              "missing candidate totals",
+              "missing weighted total for wetlab-ai/qwen3-tts-v032-689976b5c5-s9lcj-rank-0",
+              "missing weighted total for wetlab-ai/qwen3-tts-v032-replica-b-69cc48cfff-wcqpr-rank-0"
+            ],
+            "status": "partial"
+          }
+        ]
+      },
+      "profile": "tokenLoadProfile",
+      "scorer": "token-load-scorer (weight 1)"
+    },
+    {
+      "iteration": 8,
+      "request_id_sent": "b058711e-ff57-4eac-b777-60aa122fd963",
+      "request_id_response": null,
+      "request_id_gateway": null,
+      "user_agent": "voli-stream-metrics/ffc2c41db10444389a58b4dc0d558cc8/8",
+      "pod": null,
+      "upstream": null,
+      "backend_source": null,
+      "status": "ok",
+      "error": null,
+      "http_status": 200,
+      "usage": {
+        "input_tokens": 9,
+        "output_tokens": 48,
+        "total_tokens": 57,
+        "input_token_details": {
+          "text_tokens": 9,
+          "audio_tokens": 0
+        }
+      },
+      "text": "",
+      "visible_text": "",
+      "e2e_ms": 1549.5811760047218,
+      "response_pod_header": null,
+      "ttft_ms": null,
+      "ttfo_ms": null,
+      "ttfa_ms": 345.2108259953093,
+      "text_chunks": 0,
+      "audio_chunks": 3,
+      "text_gap_ms": [],
+      "audio_gap_ms": [
+        818.1515960022807,
+        385.99948400224093
+      ],
+      "client_text_tokens": 0,
+      "server_completion_tokens": 48,
+      "tpot_basis": "client text tokens",
+      "tpot_estimate_ms": null,
+      "missing_modalities": [],
+      "epp_scores": {
+        "status": "partial",
+        "decisions": [
+          {
+            "epp_pod": "endpoint-picker-epp-86856f88d9-r8nlv",
+            "request_id": "b058711e-ff57-4eac-b777-60aa122fd963",
+            "timestamp": "2026-11-24T10:58:10.953160437Z",
+            "endpoints": [
+              {
+                "scores": {
+                  "tokenLoad": {
+                    "type": "token-load-scorer",
+                    "raw": 1,
+                    "weight": 1.0,
+                    "weighted": 1.0
+                  }
+                },
+                "selected": false,
+                "endpoint_id": "wetlab-ai/qwen3-tts-v032-689976b5c5-s9lcj-rank-0",
+                "pod": null,
+                "weighted_total": null,
+                "computed_total": 1.0
+              },
+              {
+                "scores": {
+                  "tokenLoad": {
+                    "type": "token-load-scorer",
+                    "raw": 1,
+                    "weight": 1.0,
+                    "weighted": 1.0
+                  }
+                },
+                "selected": true,
+                "pod": "qwen3-tts-v032-replica-b-69cc48cfff-wcqpr",
+                "endpoint_id": "wetlab-ai/qwen3-tts-v032-replica-b-69cc48cfff-wcqpr-rank-0",
+                "weighted_total": null,
+                "computed_total": 1.0
+              }
+            ],
+            "issues": [
+              "missing candidate totals",
+              "missing weighted total for wetlab-ai/qwen3-tts-v032-689976b5c5-s9lcj-rank-0",
+              "missing weighted total for wetlab-ai/qwen3-tts-v032-replica-b-69cc48cfff-wcqpr-rank-0"
+            ],
+            "status": "partial"
+          }
+        ]
+      },
+      "profile": "tokenLoadProfile",
+      "scorer": "token-load-scorer (weight 1)"
+    },
+    {
+      "iteration": 9,
+      "request_id_sent": "a9dec94f-2c4c-4325-89b7-2b334ac0d7a6",
+      "request_id_response": null,
+      "request_id_gateway": null,
+      "user_agent": "voli-stream-metrics/ffc2c41db10444389a58b4dc0d558cc8/9",
+      "pod": null,
+      "upstream": null,
+      "backend_source": null,
+      "status": "ok",
+      "error": null,
+      "http_status": 200,
+      "usage": {
+        "input_tokens": 9,
+        "output_tokens": 49,
+        "total_tokens": 58,
+        "input_token_details": {
+          "text_tokens": 9,
+          "audio_tokens": 0
+        }
+      },
+      "text": "",
+      "visible_text": "",
+      "e2e_ms": 1796.984287997475,
+      "response_pod_header": null,
+      "ttft_ms": null,
+      "ttfo_ms": null,
+      "ttfa_ms": 345.968167996034,
+      "text_chunks": 0,
+      "audio_chunks": 3,
+      "text_gap_ms": [],
+      "audio_gap_ms": [
+        821.2472300074296,
+        629.3723690032493
+      ],
+      "client_text_tokens": 0,
+      "server_completion_tokens": 49,
+      "tpot_basis": "client text tokens",
+      "tpot_estimate_ms": null,
+      "missing_modalities": [],
+      "epp_scores": {
+        "status": "partial",
+        "decisions": [
+          {
+            "epp_pod": "endpoint-picker-epp-86856f88d9-r8nlv",
+            "request_id": "a9dec94f-2c4c-4325-89b7-2b334ac0d7a6",
+            "timestamp": "2026-11-24T10:58:12.502500922Z",
+            "endpoints": [
+              {
+                "scores": {
+                  "tokenLoad": {
+                    "type": "token-load-scorer",
+                    "raw": 1,
+                    "weight": 1.0,
+                    "weighted": 1.0
+                  }
+                },
+                "selected": true,
+                "pod": "qwen3-tts-v032-689976b5c5-s9lcj",
+                "endpoint_id": "wetlab-ai/qwen3-tts-v032-689976b5c5-s9lcj-rank-0",
+                "weighted_total": null,
+                "computed_total": 1.0
+              },
+              {
+                "scores": {
+                  "tokenLoad": {
+                    "type": "token-load-scorer",
+                    "raw": 1,
+                    "weight": 1.0,
+                    "weighted": 1.0
+                  }
+                },
+                "selected": false,
+                "endpoint_id": "wetlab-ai/qwen3-tts-v032-replica-b-69cc48cfff-wcqpr-rank-0",
+                "pod": null,
+                "weighted_total": null,
+                "computed_total": 1.0
+              }
+            ],
+            "issues": [
+              "missing candidate totals",
+              "missing weighted total for wetlab-ai/qwen3-tts-v032-689976b5c5-s9lcj-rank-0",
+              "missing weighted total for wetlab-ai/qwen3-tts-v032-replica-b-69cc48cfff-wcqpr-rank-0"
+            ],
+            "status": "partial"
+          }
+        ]
+      },
+      "profile": "tokenLoadProfile",
+      "scorer": "token-load-scorer (weight 1)"
+    },
+    {
+      "iteration": 10,
+      "request_id_sent": "3184d7e1-693d-4b06-9419-f1dd83d1aa3e",
+      "request_id_response": null,
+      "request_id_gateway": null,
+      "user_agent": "voli-stream-metrics/ffc2c41db10444389a58b4dc0d558cc8/10",
+      "pod": null,
+      "upstream": null,
+      "backend_source": null,
+      "status": "ok",
+      "error": null,
+      "http_status": 200,
+      "usage": {
+        "input_tokens": 9,
+        "output_tokens": 61,
+        "total_tokens": 70,
+        "input_token_details": {
+          "text_tokens": 9,
+          "audio_tokens": 0
+        }
+      },
+      "text": "",
+      "visible_text": "",
+      "e2e_ms": 2673.2146339927567,
+      "response_pod_header": null,
+      "ttft_ms": null,
+      "ttfo_ms": null,
+      "ttfa_ms": 347.8076239989605,
+      "text_chunks": 0,
+      "audio_chunks": 4,
+      "text_gap_ms": [],
+      "audio_gap_ms": [
+        1021.6131939960178,
+        904.161992992158,
+        375.8818910137052
+      ],
+      "client_text_tokens": 0,
+      "server_completion_tokens": 61,
+      "tpot_basis": "client text tokens",
+      "tpot_estimate_ms": null,
+      "missing_modalities": [],
+      "epp_scores": {
+        "status": "partial",
+        "decisions": [
+          {
+            "epp_pod": "endpoint-picker-epp-86856f88d9-r8nlv",
+            "request_id": "3184d7e1-693d-4b06-9419-f1dd83d1aa3e",
+            "timestamp": "2026-11-24T10:58:14.300795654Z",
+            "endpoints": [
+              {
+                "scores": {
+                  "tokenLoad": {
+                    "type": "token-load-scorer",
+                    "raw": 1,
+                    "weight": 1.0,
+                    "weighted": 1.0
+                  }
+                },
+                "selected": false,
+                "endpoint_id": "wetlab-ai/qwen3-tts-v032-689976b5c5-s9lcj-rank-0",
+                "pod": null,
+                "weighted_total": null,
+                "computed_total": 1.0
+              },
+              {
+                "scores": {
+                  "tokenLoad": {
+                    "type": "token-load-scorer",
+                    "raw": 1,
+                    "weight": 1.0,
+                    "weighted": 1.0
+                  }
+                },
+                "selected": true,
+                "pod": "qwen3-tts-v032-replica-b-69cc48cfff-wcqpr",
+                "endpoint_id": "wetlab-ai/qwen3-tts-v032-replica-b-69cc48cfff-wcqpr-rank-0",
+                "weighted_total": null,
+                "computed_total": 1.0
+              }
+            ],
+            "issues": [
+              "missing candidate totals",
+              "missing weighted total for wetlab-ai/qwen3-tts-v032-689976b5c5-s9lcj-rank-0",
+              "missing weighted total for wetlab-ai/qwen3-tts-v032-replica-b-69cc48cfff-wcqpr-rank-0"
+            ],
+            "status": "partial"
+          }
+        ]
+      },
+      "profile": "tokenLoadProfile",
+      "scorer": "token-load-scorer (weight 1)"
+    },
+    {
+      "iteration": 11,
+      "request_id_sent": "1eae3968-2ef4-4dc3-87e0-d5be7db3728b",
+      "request_id_response": null,
+      "request_id_gateway": null,
+      "user_agent": "voli-stream-metrics/ffc2c41db10444389a58b4dc0d558cc8/11",
+      "pod": null,
+      "upstream": null,
+      "backend_source": null,
+      "status": "ok",
+      "error": null,
+      "http_status": 200,
+      "usage": {
+        "input_tokens": 9,
+        "output_tokens": 53,
+        "total_tokens": 62,
+        "input_token_details": {
+          "text_tokens": 9,
+          "audio_tokens": 0
+        }
+      },
+      "text": "",
+      "visible_text": "",
+      "e2e_ms": 2216.433378009242,
+      "response_pod_header": null,
+      "ttft_ms": null,
+      "ttfo_ms": null,
+      "ttfa_ms": 342.77539599861484,
+      "text_chunks": 0,
+      "audio_chunks": 4,
+      "text_gap_ms": [],
+      "audio_gap_ms": [
+        1218.3805009990465,
+        654.8309710051399,
+        0.23272499674931169
+      ],
+      "client_text_tokens": 0,
+      "server_completion_tokens": 53,
+      "tpot_basis": "client text tokens",
+      "tpot_estimate_ms": null,
+      "missing_modalities": [],
+      "epp_scores": {
+        "status": "partial",
+        "decisions": [
+          {
+            "epp_pod": "endpoint-picker-epp-86856f88d9-r8nlv",
+            "request_id": "1eae3968-2ef4-4dc3-87e0-d5be7db3728b",
+            "timestamp": "2026-11-24T10:58:16.97265726Z",
+            "endpoints": [
+              {
+                "scores": {
+                  "tokenLoad": {
+                    "type": "token-load-scorer",
+                    "raw": 1,
+                    "weight": 1.0,
+                    "weighted": 1.0
+                  }
+                },
+                "selected": true,
+                "pod": "qwen3-tts-v032-689976b5c5-s9lcj",
+                "endpoint_id": "wetlab-ai/qwen3-tts-v032-689976b5c5-s9lcj-rank-0",
+                "weighted_total": null,
+                "computed_total": 1.0
+              },
+              {
+                "scores": {
+                  "tokenLoad": {
+                    "type": "token-load-scorer",
+                    "raw": 1,
+                    "weight": 1.0,
+                    "weighted": 1.0
+                  }
+                },
+                "selected": false,
+                "endpoint_id": "wetlab-ai/qwen3-tts-v032-replica-b-69cc48cfff-wcqpr-rank-0",
+                "pod": null,
+                "weighted_total": null,
+                "computed_total": 1.0
+              }
+            ],
+            "issues": [
+              "missing candidate totals",
+              "missing weighted total for wetlab-ai/qwen3-tts-v032-689976b5c5-s9lcj-rank-0",
+              "missing weighted total for wetlab-ai/qwen3-tts-v032-replica-b-69cc48cfff-wcqpr-rank-0"
+            ],
+            "status": "partial"
+          }
+        ]
+      },
+      "profile": "tokenLoadProfile",
+      "scorer": "token-load-scorer (weight 1)"
+    },
+    {
+      "iteration": 12,
+      "request_id_sent": "864b2a30-66c3-46e8-90a3-5da73534c8dc",
+      "request_id_response": null,
+      "request_id_gateway": null,
+      "user_agent": "voli-stream-metrics/ffc2c41db10444389a58b4dc0d558cc8/12",
+      "pod": null,
+      "upstream": null,
+      "backend_source": null,
+      "status": "ok",
+      "error": null,
+      "http_status": 200,
+      "usage": {
+        "input_tokens": 9,
+        "output_tokens": 56,
+        "total_tokens": 65,
+        "input_token_details": {
+          "text_tokens": 9,
+          "audio_tokens": 0
+        }
+      },
+      "text": "",
+      "visible_text": "",
+      "e2e_ms": 1898.6008610081626,
+      "response_pod_header": null,
+      "ttft_ms": null,
+      "ttfo_ms": null,
+      "ttfa_ms": 345.62610200373456,
+      "text_chunks": 0,
+      "audio_chunks": 4,
+      "text_gap_ms": [],
+      "audio_gap_ms": [
+        980.7328309980221,
+        571.7016929993406,
+        0.28112001018598676
+      ],
+      "client_text_tokens": 0,
+      "server_completion_tokens": 56,
+      "tpot_basis": "client text tokens",
+      "tpot_estimate_ms": null,
+      "missing_modalities": [],
+      "epp_scores": {
+        "status": "partial",
+        "decisions": [
+          {
+            "epp_pod": "endpoint-picker-epp-86856f88d9-r8nlv",
+            "request_id": "864b2a30-66c3-46e8-90a3-5da73534c8dc",
+            "timestamp": "2026-11-24T10:58:19.191038401Z",
+            "endpoints": [
+              {
+                "scores": {
+                  "tokenLoad": {
+                    "type": "token-load-scorer",
+                    "raw": 1,
+                    "weight": 1.0,
+                    "weighted": 1.0
+                  }
+                },
+                "selected": false,
+                "endpoint_id": "wetlab-ai/qwen3-tts-v032-689976b5c5-s9lcj-rank-0",
+                "pod": null,
+                "weighted_total": null,
+                "computed_total": 1.0
+              },
+              {
+                "scores": {
+                  "tokenLoad": {
+                    "type": "token-load-scorer",
+                    "raw": 1,
+                    "weight": 1.0,
+                    "weighted": 1.0
+                  }
+                },
+                "selected": true,
+                "pod": "qwen3-tts-v032-replica-b-69cc48cfff-wcqpr",
+                "endpoint_id": "wetlab-ai/qwen3-tts-v032-replica-b-69cc48cfff-wcqpr-rank-0",
+                "weighted_total": null,
+                "computed_total": 1.0
+              }
+            ],
+            "issues": [
+              "missing candidate totals",
+              "missing weighted total for wetlab-ai/qwen3-tts-v032-689976b5c5-s9lcj-rank-0",
+              "missing weighted total for wetlab-ai/qwen3-tts-v032-replica-b-69cc48cfff-wcqpr-rank-0"
+            ],
+            "status": "partial"
+          }
+        ]
+      },
+      "profile": "tokenLoadProfile",
+      "scorer": "token-load-scorer (weight 1)"
+    },
+    {
+      "iteration": 13,
+      "request_id_sent": "cec6b734-a778-4dc0-b1b8-1919f85ca1a1",
+      "request_id_response": null,
+      "request_id_gateway": null,
+      "user_agent": "voli-stream-metrics/ffc2c41db10444389a58b4dc0d558cc8/13",
+      "pod": null,
+      "upstream": null,
+      "backend_source": null,
+      "status": "ok",
+      "error": null,
+      "http_status": 200,
+      "usage": {
+        "input_tokens": 9,
+        "output_tokens": 59,
+        "total_tokens": 68,
+        "input_token_details": {
+          "text_tokens": 9,
+          "audio_tokens": 0
+        }
+      },
+      "text": "",
+      "visible_text": "",
+      "e2e_ms": 2007.4901129992213,
+      "response_pod_header": null,
+      "ttft_ms": null,
+      "ttfo_ms": null,
+      "ttfa_ms": 359.12976499821525,
+      "text_chunks": 0,
+      "audio_chunks": 4,
+      "text_gap_ms": [],
+      "audio_gap_ms": [
+        1017.7656269952422,
+        469.9827680015005,
+        160.31941199616995
+      ],
+      "client_text_tokens": 0,
+      "server_completion_tokens": 59,
+      "tpot_basis": "client text tokens",
+      "tpot_estimate_ms": null,
+      "missing_modalities": [],
+      "epp_scores": {
+        "status": "partial",
+        "decisions": [
+          {
+            "epp_pod": "endpoint-picker-epp-86856f88d9-r8nlv",
+            "request_id": "cec6b734-a778-4dc0-b1b8-1919f85ca1a1",
+            "timestamp": "2026-11-24T10:58:21.10380361Z",
+            "endpoints": [
+              {
+                "scores": {
+                  "tokenLoad": {
+                    "type": "token-load-scorer",
+                    "raw": 1,
+                    "weight": 1.0,
+                    "weighted": 1.0
+                  }
+                },
+                "selected": true,
+                "pod": "qwen3-tts-v032-689976b5c5-s9lcj",
+                "endpoint_id": "wetlab-ai/qwen3-tts-v032-689976b5c5-s9lcj-rank-0",
+                "weighted_total": null,
+                "computed_total": 1.0
+              },
+              {
+                "scores": {
+                  "tokenLoad": {
+                    "type": "token-load-scorer",
+                    "raw": 1,
+                    "weight": 1.0,
+                    "weighted": 1.0
+                  }
+                },
+                "selected": false,
+                "endpoint_id": "wetlab-ai/qwen3-tts-v032-replica-b-69cc48cfff-wcqpr-rank-0",
+                "pod": null,
+                "weighted_total": null,
+                "computed_total": 1.0
+              }
+            ],
+            "issues": [
+              "missing candidate totals",
+              "missing weighted total for wetlab-ai/qwen3-tts-v032-689976b5c5-s9lcj-rank-0",
+              "missing weighted total for wetlab-ai/qwen3-tts-v032-replica-b-69cc48cfff-wcqpr-rank-0"
+            ],
+            "status": "partial"
+          }
+        ]
+      },
+      "profile": "tokenLoadProfile",
+      "scorer": "token-load-scorer (weight 1)"
+    },
+    {
+      "iteration": 14,
+      "request_id_sent": "0b6d58cf-9af7-4caf-b78e-54b95d46f1a6",
+      "request_id_response": null,
+      "request_id_gateway": null,
+      "user_agent": "voli-stream-metrics/ffc2c41db10444389a58b4dc0d558cc8/14",
+      "pod": null,
+      "upstream": null,
+      "backend_source": null,
+      "status": "ok",
+      "error": null,
+      "http_status": 200,
+      "usage": {
+        "input_tokens": 9,
+        "output_tokens": 47,
+        "total_tokens": 56,
+        "input_token_details": {
+          "text_tokens": 9,
+          "audio_tokens": 0
+        }
+      },
+      "text": "",
+      "visible_text": "",
+      "e2e_ms": 1584.4513189949794,
+      "response_pod_header": null,
+      "ttft_ms": null,
+      "ttfo_ms": null,
+      "ttfa_ms": 350.91702999488916,
+      "text_chunks": 0,
+      "audio_chunks": 3,
+      "text_gap_ms": [],
+      "audio_gap_ms": [
+        923.8918090122752,
+        309.23990899464116
+      ],
+      "client_text_tokens": 0,
+      "server_completion_tokens": 47,
+      "tpot_basis": "client text tokens",
+      "tpot_estimate_ms": null,
+      "missing_modalities": [],
+      "epp_scores": {
+        "status": "partial",
+        "decisions": [
+          {
+            "epp_pod": "endpoint-picker-epp-86856f88d9-r8nlv",
+            "request_id": "0b6d58cf-9af7-4caf-b78e-54b95d46f1a6",
+            "timestamp": "2026-11-24T10:58:23.099852673Z",
+            "endpoints": [
+              {
+                "scores": {
+                  "tokenLoad": {
+                    "type": "token-load-scorer",
+                    "raw": 1,
+                    "weight": 1.0,
+                    "weighted": 1.0
+                  }
+                },
+                "selected": false,
+                "endpoint_id": "wetlab-ai/qwen3-tts-v032-689976b5c5-s9lcj-rank-0",
+                "pod": null,
+                "weighted_total": null,
+                "computed_total": 1.0
+              },
+              {
+                "scores": {
+                  "tokenLoad": {
+                    "type": "token-load-scorer",
+                    "raw": 1,
+                    "weight": 1.0,
+                    "weighted": 1.0
+                  }
+                },
+                "selected": true,
+                "pod": "qwen3-tts-v032-replica-b-69cc48cfff-wcqpr",
+                "endpoint_id": "wetlab-ai/qwen3-tts-v032-replica-b-69cc48cfff-wcqpr-rank-0",
+                "weighted_total": null,
+                "computed_total": 1.0
+              }
+            ],
+            "issues": [
+              "missing candidate totals",
+              "missing weighted total for wetlab-ai/qwen3-tts-v032-689976b5c5-s9lcj-rank-0",
+              "missing weighted total for wetlab-ai/qwen3-tts-v032-replica-b-69cc48cfff-wcqpr-rank-0"
+            ],
+            "status": "partial"
+          }
+        ]
+      },
+      "profile": "tokenLoadProfile",
+      "scorer": "token-load-scorer (weight 1)"
+    },
+    {
+      "iteration": 15,
+      "request_id_sent": "fb9d1e5b-2a7f-44e3-84a4-d314ec4ce08a",
+      "request_id_response": null,
+      "request_id_gateway": null,
+      "user_agent": "voli-stream-metrics/ffc2c41db10444389a58b4dc0d558cc8/15",
+      "pod": null,
+      "upstream": null,
+      "backend_source": null,
+      "status": "ok",
+      "error": null,
+      "http_status": 200,
+      "usage": {
+        "input_tokens": 9,
+        "output_tokens": 58,
+        "total_tokens": 67,
+        "input_token_details": {
+          "text_tokens": 9,
+          "audio_tokens": 0
+        }
+      },
+      "text": "",
+      "visible_text": "",
+      "e2e_ms": 1674.0152519923868,
+      "response_pod_header": null,
+      "ttft_ms": null,
+      "ttfo_ms": null,
+      "ttfa_ms": 349.94427699712105,
+      "text_chunks": 0,
+      "audio_chunks": 4,
+      "text_gap_ms": [],
+      "audio_gap_ms": [
+        819.3259749969002,
+        402.20928299822845,
+        102.26574800617527
+      ],
+      "client_text_tokens": 0,
+      "server_completion_tokens": 58,
+      "tpot_basis": "client text tokens",
+      "tpot_estimate_ms": null,
+      "missing_modalities": [],
+      "epp_scores": {
+        "status": "partial",
+        "decisions": [
+          {
+            "epp_pod": "endpoint-picker-epp-86856f88d9-r8nlv",
+            "request_id": "fb9d1e5b-2a7f-44e3-84a4-d314ec4ce08a",
+            "timestamp": "2026-11-24T10:58:24.68178536Z",
+            "endpoints": [
+              {
+                "scores": {
+                  "tokenLoad": {
+                    "type": "token-load-scorer",
+                    "raw": 1,
+                    "weight": 1.0,
+                    "weighted": 1.0
+                  }
+                },
+                "selected": true,
+                "pod": "qwen3-tts-v032-689976b5c5-s9lcj",
+                "endpoint_id": "wetlab-ai/qwen3-tts-v032-689976b5c5-s9lcj-rank-0",
+                "weighted_total": null,
+                "computed_total": 1.0
+              },
+              {
+                "scores": {
+                  "tokenLoad": {
+                    "type": "token-load-scorer",
+                    "raw": 1,
+                    "weight": 1.0,
+                    "weighted": 1.0
+                  }
+                },
+                "selected": false,
+                "endpoint_id": "wetlab-ai/qwen3-tts-v032-replica-b-69cc48cfff-wcqpr-rank-0",
+                "pod": null,
+                "weighted_total": null,
+                "computed_total": 1.0
+              }
+            ],
+            "issues": [
+              "missing candidate totals",
+              "missing weighted total for wetlab-ai/qwen3-tts-v032-689976b5c5-s9lcj-rank-0",
+              "missing weighted total for wetlab-ai/qwen3-tts-v032-replica-b-69cc48cfff-wcqpr-rank-0"
+            ],
+            "status": "partial"
+          }
+        ]
+      },
+      "profile": "tokenLoadProfile",
+      "scorer": "token-load-scorer (weight 1)"
+    },
+    {
+      "iteration": 16,
+      "request_id_sent": "2a2c3ec9-bbc3-4524-89e7-22612ba376ad",
+      "request_id_response": null,
+      "request_id_gateway": null,
+      "user_agent": "voli-stream-metrics/ffc2c41db10444389a58b4dc0d558cc8/16",
+      "pod": null,
+      "upstream": null,
+      "backend_source": null,
+      "status": "ok",
+      "error": null,
+      "http_status": 200,
+      "usage": {
+        "input_tokens": 9,
+        "output_tokens": 46,
+        "total_tokens": 55,
+        "input_token_details": {
+          "text_tokens": 9,
+          "audio_tokens": 0
+        }
+      },
+      "text": "",
+      "visible_text": "",
+      "e2e_ms": 1369.3043750099605,
+      "response_pod_header": null,
+      "ttft_ms": null,
+      "ttfo_ms": null,
+      "ttfa_ms": 349.7584050055593,
+      "text_chunks": 0,
+      "audio_chunks": 3,
+      "text_gap_ms": [],
+      "audio_gap_ms": [
+        817.907788004959,
+        201.2612449907465
+      ],
+      "client_text_tokens": 0,
+      "server_completion_tokens": 46,
+      "tpot_basis": "client text tokens",
+      "tpot_estimate_ms": null,
+      "missing_modalities": [],
+      "epp_scores": {
+        "status": "partial",
+        "decisions": [
+          {
+            "epp_pod": "endpoint-picker-epp-86856f88d9-r8nlv",
+            "request_id": "2a2c3ec9-bbc3-4524-89e7-22612ba376ad",
+            "timestamp": "2026-11-24T10:58:26.35553587Z",
+            "endpoints": [
+              {
+                "scores": {
+                  "tokenLoad": {
+                    "type": "token-load-scorer",
+                    "raw": 1,
+                    "weight": 1.0,
+                    "weighted": 1.0
+                  }
+                },
+                "selected": false,
+                "endpoint_id": "wetlab-ai/qwen3-tts-v032-689976b5c5-s9lcj-rank-0",
+                "pod": null,
+                "weighted_total": null,
+                "computed_total": 1.0
+              },
+              {
+                "scores": {
+                  "tokenLoad": {
+                    "type": "token-load-scorer",
+                    "raw": 1,
+                    "weight": 1.0,
+                    "weighted": 1.0
+                  }
+                },
+                "selected": true,
+                "pod": "qwen3-tts-v032-replica-b-69cc48cfff-wcqpr",
+                "endpoint_id": "wetlab-ai/qwen3-tts-v032-replica-b-69cc48cfff-wcqpr-rank-0",
+                "weighted_total": null,
+                "computed_total": 1.0
+              }
+            ],
+            "issues": [
+              "missing candidate totals",
+              "missing weighted total for wetlab-ai/qwen3-tts-v032-689976b5c5-s9lcj-rank-0",
+              "missing weighted total for wetlab-ai/qwen3-tts-v032-replica-b-69cc48cfff-wcqpr-rank-0"
+            ],
+            "status": "partial"
+          }
+        ]
+      },
+      "profile": "tokenLoadProfile",
+      "scorer": "token-load-scorer (weight 1)"
+    },
+    {
+      "iteration": 17,
+      "request_id_sent": "2eb97298-5e84-467f-88e5-191aebb222df",
+      "request_id_response": null,
+      "request_id_gateway": null,
+      "user_agent": "voli-stream-metrics/ffc2c41db10444389a58b4dc0d558cc8/17",
+      "pod": null,
+      "upstream": null,
+      "backend_source": null,
+      "status": "ok",
+      "error": null,
+      "http_status": 200,
+      "usage": {
+        "input_tokens": 9,
+        "output_tokens": 53,
+        "total_tokens": 62,
+        "input_token_details": {
+          "text_tokens": 9,
+          "audio_tokens": 0
+        }
+      },
+      "text": "",
+      "visible_text": "",
+      "e2e_ms": 1468.6657760030357,
+      "response_pod_header": null,
+      "ttft_ms": null,
+      "ttfo_ms": null,
+      "ttfa_ms": 349.4446690019686,
+      "text_chunks": 0,
+      "audio_chunks": 4,
+      "text_gap_ms": [],
+      "audio_gap_ms": [
+        715.4466789943399,
+        403.38567600701936,
+        0.1886469981400296
+      ],
+      "client_text_tokens": 0,
+      "server_completion_tokens": 53,
+      "tpot_basis": "client text tokens",
+      "tpot_estimate_ms": null,
+      "missing_modalities": [],
+      "epp_scores": {
+        "status": "partial",
+        "decisions": [
+          {
+            "epp_pod": "endpoint-picker-epp-86856f88d9-r8nlv",
+            "request_id": "2eb97298-5e84-467f-88e5-191aebb222df",
+            "timestamp": "2026-11-24T10:58:27.730500787Z",
+            "endpoints": [
+              {
+                "scores": {
+                  "tokenLoad": {
+                    "type": "token-load-scorer",
+                    "raw": 1,
+                    "weight": 1.0,
+                    "weighted": 1.0
+                  }
+                },
+                "selected": true,
+                "pod": "qwen3-tts-v032-689976b5c5-s9lcj",
+                "endpoint_id": "wetlab-ai/qwen3-tts-v032-689976b5c5-s9lcj-rank-0",
+                "weighted_total": null,
+                "computed_total": 1.0
+              },
+              {
+                "scores": {
+                  "tokenLoad": {
+                    "type": "token-load-scorer",
+                    "raw": 1,
+                    "weight": 1.0,
+                    "weighted": 1.0
+                  }
+                },
+                "selected": false,
+                "endpoint_id": "wetlab-ai/qwen3-tts-v032-replica-b-69cc48cfff-wcqpr-rank-0",
+                "pod": null,
+                "weighted_total": null,
+                "computed_total": 1.0
+              }
+            ],
+            "issues": [
+              "missing candidate totals",
+              "missing weighted total for wetlab-ai/qwen3-tts-v032-689976b5c5-s9lcj-rank-0",
+              "missing weighted total for wetlab-ai/qwen3-tts-v032-replica-b-69cc48cfff-wcqpr-rank-0"
+            ],
+            "status": "partial"
+          }
+        ]
+      },
+      "profile": "tokenLoadProfile",
+      "scorer": "token-load-scorer (weight 1)"
+    },
+    {
+      "iteration": 18,
+      "request_id_sent": "79464ac3-6319-4ec3-b0f3-9491549a1fa7",
+      "request_id_response": null,
+      "request_id_gateway": null,
+      "user_agent": "voli-stream-metrics/ffc2c41db10444389a58b4dc0d558cc8/18",
+      "pod": null,
+      "upstream": null,
+      "backend_source": null,
+      "status": "ok",
+      "error": null,
+      "http_status": 200,
+      "usage": {
+        "input_tokens": 9,
+        "output_tokens": 50,
+        "total_tokens": 59,
+        "input_token_details": {
+          "text_tokens": 9,
+          "audio_tokens": 0
+        }
+      },
+      "text": "",
+      "visible_text": "",
+      "e2e_ms": 1378.5988710005768,
+      "response_pod_header": null,
+      "ttft_ms": null,
+      "ttfo_ms": null,
+      "ttfa_ms": 342.79325300303753,
+      "text_chunks": 0,
+      "audio_chunks": 3,
+      "text_gap_ms": [],
+      "audio_gap_ms": [
+        734.0624859934906,
+        301.33554100757465
+      ],
+      "client_text_tokens": 0,
+      "server_completion_tokens": 50,
+      "tpot_basis": "client text tokens",
+      "tpot_estimate_ms": null,
+      "missing_modalities": [],
+      "epp_scores": {
+        "status": "partial",
+        "decisions": [
+          {
+            "epp_pod": "endpoint-picker-epp-86856f88d9-r8nlv",
+            "request_id": "79464ac3-6319-4ec3-b0f3-9491549a1fa7",
+            "timestamp": "2026-11-24T10:58:29.1922364Z",
+            "endpoints": [
+              {
+                "scores": {
+                  "tokenLoad": {
+                    "type": "token-load-scorer",
+                    "raw": 1,
+                    "weight": 1.0,
+                    "weighted": 1.0
+                  }
+                },
+                "selected": false,
+                "endpoint_id": "wetlab-ai/qwen3-tts-v032-689976b5c5-s9lcj-rank-0",
+                "pod": null,
+                "weighted_total": null,
+                "computed_total": 1.0
+              },
+              {
+                "scores": {
+                  "tokenLoad": {
+                    "type": "token-load-scorer",
+                    "raw": 1,
+                    "weight": 1.0,
+                    "weighted": 1.0
+                  }
+                },
+                "selected": true,
+                "pod": "qwen3-tts-v032-replica-b-69cc48cfff-wcqpr",
+                "endpoint_id": "wetlab-ai/qwen3-tts-v032-replica-b-69cc48cfff-wcqpr-rank-0",
+                "weighted_total": null,
+                "computed_total": 1.0
+              }
+            ],
+            "issues": [
+              "missing candidate totals",
+              "missing weighted total for wetlab-ai/qwen3-tts-v032-689976b5c5-s9lcj-rank-0",
+              "missing weighted total for wetlab-ai/qwen3-tts-v032-replica-b-69cc48cfff-wcqpr-rank-0"
+            ],
+            "status": "partial"
+          }
+        ]
+      },
+      "profile": "tokenLoadProfile",
+      "scorer": "token-load-scorer (weight 1)"
+    },
+    {
+      "iteration": 19,
+      "request_id_sent": "19907afe-1328-45f9-9f67-ead3254158f5",
+      "request_id_response": null,
+      "request_id_gateway": null,
+      "user_agent": "voli-stream-metrics/ffc2c41db10444389a58b4dc0d558cc8/19",
+      "pod": null,
+      "upstream": null,
+      "backend_source": null,
+      "status": "ok",
+      "error": null,
+      "http_status": 200,
+      "usage": {
+        "input_tokens": 9,
+        "output_tokens": 46,
+        "total_tokens": 55,
+        "input_token_details": {
+          "text_tokens": 9,
+          "audio_tokens": 0
+        }
+      },
+      "text": "",
+      "visible_text": "",
+      "e2e_ms": 1361.062531999778,
+      "response_pod_header": null,
+      "ttft_ms": null,
+      "ttfo_ms": null,
+      "ttfa_ms": 343.71718400507234,
+      "text_chunks": 0,
+      "audio_chunks": 3,
+      "text_gap_ms": [],
+      "audio_gap_ms": [
+        817.0701489871135,
+        199.9518490047194
+      ],
+      "client_text_tokens": 0,
+      "server_completion_tokens": 46,
+      "tpot_basis": "client text tokens",
+      "tpot_estimate_ms": null,
+      "missing_modalities": [],
+      "epp_scores": {
+        "status": "partial",
+        "decisions": [
+          {
+            "epp_pod": "endpoint-picker-epp-86856f88d9-r8nlv",
+            "request_id": "19907afe-1328-45f9-9f67-ead3254158f5",
+            "timestamp": "2026-11-24T10:58:30.572419729Z",
+            "endpoints": [
+              {
+                "scores": {
+                  "tokenLoad": {
+                    "type": "token-load-scorer",
+                    "raw": 1,
+                    "weight": 1.0,
+                    "weighted": 1.0
+                  }
+                },
+                "selected": true,
+                "pod": "qwen3-tts-v032-689976b5c5-s9lcj",
+                "endpoint_id": "wetlab-ai/qwen3-tts-v032-689976b5c5-s9lcj-rank-0",
+                "weighted_total": null,
+                "computed_total": 1.0
+              },
+              {
+                "scores": {
+                  "tokenLoad": {
+                    "type": "token-load-scorer",
+                    "raw": 1,
+                    "weight": 1.0,
+                    "weighted": 1.0
+                  }
+                },
+                "selected": false,
+                "endpoint_id": "wetlab-ai/qwen3-tts-v032-replica-b-69cc48cfff-wcqpr-rank-0",
+                "pod": null,
+                "weighted_total": null,
+                "computed_total": 1.0
+              }
+            ],
+            "issues": [
+              "missing candidate totals",
+              "missing weighted total for wetlab-ai/qwen3-tts-v032-689976b5c5-s9lcj-rank-0",
+              "missing weighted total for wetlab-ai/qwen3-tts-v032-replica-b-69cc48cfff-wcqpr-rank-0"
+            ],
+            "status": "partial"
+          }
+        ]
+      },
+      "profile": "tokenLoadProfile",
+      "scorer": "token-load-scorer (weight 1)"
+    },
+    {
+      "iteration": 20,
+      "request_id_sent": "a83bc93e-9d3e-4e59-8d6d-5e23a58496c8",
+      "request_id_response": null,
+      "request_id_gateway": null,
+      "user_agent": "voli-stream-metrics/ffc2c41db10444389a58b4dc0d558cc8/20",
+      "pod": null,
+      "upstream": null,
+      "backend_source": null,
+      "status": "ok",
+      "error": null,
+      "http_status": 200,
+      "usage": {
+        "input_tokens": 9,
+        "output_tokens": 77,
+        "total_tokens": 86,
+        "input_token_details": {
+          "text_tokens": 9,
+          "audio_tokens": 0
+        }
+      },
+      "text": "",
+      "visible_text": "",
+      "e2e_ms": 1889.1458840080304,
+      "response_pod_header": null,
+      "ttft_ms": null,
+      "ttfo_ms": null,
+      "ttfa_ms": 344.9900340056047,
+      "text_chunks": 0,
+      "audio_chunks": 4,
+      "text_gap_ms": [],
+      "audio_gap_ms": [
+        730.7080820028204,
+        398.4409419936128,
+        414.7156580002047
+      ],
+      "client_text_tokens": 0,
+      "server_completion_tokens": 77,
+      "tpot_basis": "client text tokens",
+      "tpot_estimate_ms": null,
+      "missing_modalities": [],
+      "epp_scores": {
+        "status": "partial",
+        "decisions": [
+          {
+            "epp_pod": "endpoint-picker-epp-86856f88d9-r8nlv",
+            "request_id": "a83bc93e-9d3e-4e59-8d6d-5e23a58496c8",
+            "timestamp": "2026-11-24T10:58:31.934005612Z",
+            "endpoints": [
+              {
+                "scores": {
+                  "tokenLoad": {
+                    "type": "token-load-scorer",
+                    "raw": 1,
+                    "weight": 1.0,
+                    "weighted": 1.0
+                  }
+                },
+                "selected": false,
+                "endpoint_id": "wetlab-ai/qwen3-tts-v032-689976b5c5-s9lcj-rank-0",
+                "pod": null,
+                "weighted_total": null,
+                "computed_total": 1.0
+              },
+              {
+                "scores": {
+                  "tokenLoad": {
+                    "type": "token-load-scorer",
+                    "raw": 1,
+                    "weight": 1.0,
+                    "weighted": 1.0
+                  }
+                },
+                "selected": true,
+                "pod": "qwen3-tts-v032-replica-b-69cc48cfff-wcqpr",
+                "endpoint_id": "wetlab-ai/qwen3-tts-v032-replica-b-69cc48cfff-wcqpr-rank-0",
+                "weighted_total": null,
+                "computed_total": 1.0
+              }
+            ],
+            "issues": [
+              "missing candidate totals",
+              "missing weighted total for wetlab-ai/qwen3-tts-v032-689976b5c5-s9lcj-rank-0",
+              "missing weighted total for wetlab-ai/qwen3-tts-v032-replica-b-69cc48cfff-wcqpr-rank-0"
+            ],
+            "status": "partial"
+          }
+        ]
+      },
+      "profile": "tokenLoadProfile",
+      "scorer": "token-load-scorer (weight 1)"
+    },
+    {
+      "iteration": 21,
+      "request_id_sent": "0a6736ea-dbe7-44c7-860e-f3f8587843d9",
+      "request_id_response": null,
+      "request_id_gateway": null,
+      "user_agent": "voli-stream-metrics/ffc2c41db10444389a58b4dc0d558cc8/21",
+      "pod": null,
+      "upstream": null,
+      "backend_source": null,
+      "status": "ok",
+      "error": null,
+      "http_status": 200,
+      "usage": {
+        "input_tokens": 9,
+        "output_tokens": 52,
+        "total_tokens": 61,
+        "input_token_details": {
+          "text_tokens": 9,
+          "audio_tokens": 0
+        }
+      },
+      "text": "",
+      "visible_text": "",
+      "e2e_ms": 1523.5711650020676,
+      "response_pod_header": null,
+      "ttft_ms": null,
+      "ttfo_ms": null,
+      "ttfa_ms": 343.2056379970163,
+      "text_chunks": 0,
+      "audio_chunks": 3,
+      "text_gap_ms": [],
+      "audio_gap_ms": [
+        834.3803669995395,
+        345.6658399954904
+      ],
+      "client_text_tokens": 0,
+      "server_completion_tokens": 52,
+      "tpot_basis": "client text tokens",
+      "tpot_estimate_ms": null,
+      "missing_modalities": [],
+      "epp_scores": {
+        "status": "partial",
+        "decisions": [
+          {
+            "epp_pod": "endpoint-picker-epp-86856f88d9-r8nlv",
+            "request_id": "0a6736ea-dbe7-44c7-860e-f3f8587843d9",
+            "timestamp": "2026-11-24T10:58:33.822089154Z",
+            "endpoints": [
+              {
+                "scores": {
+                  "tokenLoad": {
+                    "type": "token-load-scorer",
+                    "raw": 1,
+                    "weight": 1.0,
+                    "weighted": 1.0
+                  }
+                },
+                "selected": true,
+                "pod": "qwen3-tts-v032-689976b5c5-s9lcj",
+                "endpoint_id": "wetlab-ai/qwen3-tts-v032-689976b5c5-s9lcj-rank-0",
+                "weighted_total": null,
+                "computed_total": 1.0
+              },
+              {
+                "scores": {
+                  "tokenLoad": {
+                    "type": "token-load-scorer",
+                    "raw": 1,
+                    "weight": 1.0,
+                    "weighted": 1.0
+                  }
+                },
+                "selected": false,
+                "endpoint_id": "wetlab-ai/qwen3-tts-v032-replica-b-69cc48cfff-wcqpr-rank-0",
+                "pod": null,
+                "weighted_total": null,
+                "computed_total": 1.0
+              }
+            ],
+            "issues": [
+              "missing candidate totals",
+              "missing weighted total for wetlab-ai/qwen3-tts-v032-689976b5c5-s9lcj-rank-0",
+              "missing weighted total for wetlab-ai/qwen3-tts-v032-replica-b-69cc48cfff-wcqpr-rank-0"
+            ],
+            "status": "partial"
+          }
+        ]
+      },
+      "profile": "tokenLoadProfile",
+      "scorer": "token-load-scorer (weight 1)"
+    },
+    {
+      "iteration": 22,
+      "request_id_sent": "faa025b2-522e-4806-9b54-eae683a59b65",
+      "request_id_response": null,
+      "request_id_gateway": null,
+      "user_agent": "voli-stream-metrics/ffc2c41db10444389a58b4dc0d558cc8/22",
+      "pod": null,
+      "upstream": null,
+      "backend_source": null,
+      "status": "ok",
+      "error": null,
+      "http_status": 200,
+      "usage": {
+        "input_tokens": 9,
+        "output_tokens": 57,
+        "total_tokens": 66,
+        "input_token_details": {
+          "text_tokens": 9,
+          "audio_tokens": 0
+        }
+      },
+      "text": "",
+      "visible_text": "",
+      "e2e_ms": 2773.499933988205,
+      "response_pod_header": null,
+      "ttft_ms": null,
+      "ttfo_ms": null,
+      "ttfa_ms": 346.4243769994937,
+      "text_chunks": 0,
+      "audio_chunks": 4,
+      "text_gap_ms": [],
+      "audio_gap_ms": [
+        1223.399698996218,
+        1003.3799550001277,
+        200.00901400635485
+      ],
+      "client_text_tokens": 0,
+      "server_completion_tokens": 57,
+      "tpot_basis": "client text tokens",
+      "tpot_estimate_ms": null,
+      "missing_modalities": [],
+      "epp_scores": {
+        "status": "partial",
+        "decisions": [
+          {
+            "epp_pod": "endpoint-picker-epp-86856f88d9-r8nlv",
+            "request_id": "faa025b2-522e-4806-9b54-eae683a59b65",
+            "timestamp": "2026-11-24T10:58:35.345714492Z",
+            "endpoints": [
+              {
+                "scores": {
+                  "tokenLoad": {
+                    "type": "token-load-scorer",
+                    "raw": 1,
+                    "weight": 1.0,
+                    "weighted": 1.0
+                  }
+                },
+                "selected": false,
+                "endpoint_id": "wetlab-ai/qwen3-tts-v032-689976b5c5-s9lcj-rank-0",
+                "pod": null,
+                "weighted_total": null,
+                "computed_total": 1.0
+              },
+              {
+                "scores": {
+                  "tokenLoad": {
+                    "type": "token-load-scorer",
+                    "raw": 1,
+                    "weight": 1.0,
+                    "weighted": 1.0
+                  }
+                },
+                "selected": true,
+                "pod": "qwen3-tts-v032-replica-b-69cc48cfff-wcqpr",
+                "endpoint_id": "wetlab-ai/qwen3-tts-v032-replica-b-69cc48cfff-wcqpr-rank-0",
+                "weighted_total": null,
+                "computed_total": 1.0
+              }
+            ],
+            "issues": [
+              "missing candidate totals",
+              "missing weighted total for wetlab-ai/qwen3-tts-v032-689976b5c5-s9lcj-rank-0",
+              "missing weighted total for wetlab-ai/qwen3-tts-v032-replica-b-69cc48cfff-wcqpr-rank-0"
+            ],
+            "status": "partial"
+          }
+        ]
+      },
+      "profile": "tokenLoadProfile",
+      "scorer": "token-load-scorer (weight 1)"
+    },
+    {
+      "iteration": 23,
+      "request_id_sent": "df95d30c-8093-47c6-b2a7-fde4abb86a00",
+      "request_id_response": null,
+      "request_id_gateway": null,
+      "user_agent": "voli-stream-metrics/ffc2c41db10444389a58b4dc0d558cc8/23",
+      "pod": null,
+      "upstream": null,
+      "backend_source": null,
+      "status": "ok",
+      "error": null,
+      "http_status": 200,
+      "usage": {
+        "input_tokens": 9,
+        "output_tokens": 56,
+        "total_tokens": 65,
+        "input_token_details": {
+          "text_tokens": 9,
+          "audio_tokens": 0
+        }
+      },
+      "text": "",
+      "visible_text": "",
+      "e2e_ms": 2104.8653019970516,
+      "response_pod_header": null,
+      "ttft_ms": null,
+      "ttfo_ms": null,
+      "ttfa_ms": 344.00421200552955,
+      "text_chunks": 0,
+      "audio_chunks": 4,
+      "text_gap_ms": [],
+      "audio_gap_ms": [
+        1117.1101449872367,
+        546.493238012772,
+        96.9972259917995
+      ],
+      "client_text_tokens": 0,
+      "server_completion_tokens": 56,
+      "tpot_basis": "client text tokens",
+      "tpot_estimate_ms": null,
+      "missing_modalities": [],
+      "epp_scores": {
+        "status": "partial",
+        "decisions": [
+          {
+            "epp_pod": "endpoint-picker-epp-86856f88d9-r8nlv",
+            "request_id": "df95d30c-8093-47c6-b2a7-fde4abb86a00",
+            "timestamp": "2026-11-24T10:58:38.119568228Z",
+            "endpoints": [
+              {
+                "scores": {
+                  "tokenLoad": {
+                    "type": "token-load-scorer",
+                    "raw": 1,
+                    "weight": 1.0,
+                    "weighted": 1.0
+                  }
+                },
+                "selected": true,
+                "pod": "qwen3-tts-v032-689976b5c5-s9lcj",
+                "endpoint_id": "wetlab-ai/qwen3-tts-v032-689976b5c5-s9lcj-rank-0",
+                "weighted_total": null,
+                "computed_total": 1.0
+              },
+              {
+                "scores": {
+                  "tokenLoad": {
+                    "type": "token-load-scorer",
+                    "raw": 1,
+                    "weight": 1.0,
+                    "weighted": 1.0
+                  }
+                },
+                "selected": false,
+                "endpoint_id": "wetlab-ai/qwen3-tts-v032-replica-b-69cc48cfff-wcqpr-rank-0",
+                "pod": null,
+                "weighted_total": null,
+                "computed_total": 1.0
+              }
+            ],
+            "issues": [
+              "missing candidate totals",
+              "missing weighted total for wetlab-ai/qwen3-tts-v032-689976b5c5-s9lcj-rank-0",
+              "missing weighted total for wetlab-ai/qwen3-tts-v032-replica-b-69cc48cfff-wcqpr-rank-0"
+            ],
+            "status": "partial"
+          }
+        ]
+      },
+      "profile": "tokenLoadProfile",
+      "scorer": "token-load-scorer (weight 1)"
+    },
+    {
+      "iteration": 24,
+      "request_id_sent": "123f0f7a-59a3-4bdf-8209-e0135e4495bf",
+      "request_id_response": null,
+      "request_id_gateway": null,
+      "user_agent": "voli-stream-metrics/ffc2c41db10444389a58b4dc0d558cc8/24",
+      "pod": null,
+      "upstream": null,
+      "backend_source": null,
+      "status": "ok",
+      "error": null,
+      "http_status": 200,
+      "usage": {
+        "input_tokens": 9,
+        "output_tokens": 59,
+        "total_tokens": 68,
+        "input_token_details": {
+          "text_tokens": 9,
+          "audio_tokens": 0
+        }
+      },
+      "text": "",
+      "visible_text": "",
+      "e2e_ms": 2111.090296995826,
+      "response_pod_header": null,
+      "ttft_ms": null,
+      "ttfo_ms": null,
+      "ttfa_ms": 361.2081519968342,
+      "text_chunks": 0,
+      "audio_chunks": 4,
+      "text_gap_ms": [],
+      "audio_gap_ms": [
+        934.0245530038374,
+        620.5049529962707,
+        194.79483399481978
+      ],
+      "client_text_tokens": 0,
+      "server_completion_tokens": 59,
+      "tpot_basis": "client text tokens",
+      "tpot_estimate_ms": null,
+      "missing_modalities": [],
+      "epp_scores": {
+        "status": "partial",
+        "decisions": [
+          {
+            "epp_pod": "endpoint-picker-epp-86856f88d9-r8nlv",
+            "request_id": "123f0f7a-59a3-4bdf-8209-e0135e4495bf",
+            "timestamp": "2026-11-24T10:58:40.239588489Z",
+            "endpoints": [
+              {
+                "scores": {
+                  "tokenLoad": {
+                    "type": "token-load-scorer",
+                    "raw": 1,
+                    "weight": 1.0,
+                    "weighted": 1.0
+                  }
+                },
+                "selected": false,
+                "endpoint_id": "wetlab-ai/qwen3-tts-v032-689976b5c5-s9lcj-rank-0",
+                "pod": null,
+                "weighted_total": null,
+                "computed_total": 1.0
+              },
+              {
+                "scores": {
+                  "tokenLoad": {
+                    "type": "token-load-scorer",
+                    "raw": 1,
+                    "weight": 1.0,
+                    "weighted": 1.0
+                  }
+                },
+                "selected": true,
+                "pod": "qwen3-tts-v032-replica-b-69cc48cfff-wcqpr",
+                "endpoint_id": "wetlab-ai/qwen3-tts-v032-replica-b-69cc48cfff-wcqpr-rank-0",
+                "weighted_total": null,
+                "computed_total": 1.0
+              }
+            ],
+            "issues": [
+              "missing candidate totals",
+              "missing weighted total for wetlab-ai/qwen3-tts-v032-689976b5c5-s9lcj-rank-0",
+              "missing weighted total for wetlab-ai/qwen3-tts-v032-replica-b-69cc48cfff-wcqpr-rank-0"
+            ],
+            "status": "partial"
+          }
+        ]
+      },
+      "profile": "tokenLoadProfile",
+      "scorer": "token-load-scorer (weight 1)"
+    },
+    {
+      "iteration": 25,
+      "request_id_sent": "6a458592-9211-44be-9b69-ef850235c5fc",
+      "request_id_response": null,
+      "request_id_gateway": null,
+      "user_agent": "voli-stream-metrics/ffc2c41db10444389a58b4dc0d558cc8/25",
+      "pod": null,
+      "upstream": null,
+      "backend_source": null,
+      "status": "ok",
+      "error": null,
+      "http_status": 200,
+      "usage": {
+        "input_tokens": 9,
+        "output_tokens": 63,
+        "total_tokens": 72,
+        "input_token_details": {
+          "text_tokens": 9,
+          "audio_tokens": 0
+        }
+      },
+      "text": "",
+      "visible_text": "",
+      "e2e_ms": 2284.1163109987974,
+      "response_pod_header": null,
+      "ttft_ms": null,
+      "ttfo_ms": null,
+      "ttfa_ms": 574.6030589943985,
+      "text_chunks": 0,
+      "audio_chunks": 4,
+      "text_gap_ms": [],
+      "audio_gap_ms": [
+        795.0132950063562,
+        623.2874230045127,
+        290.8242080011405
+      ],
+      "client_text_tokens": 0,
+      "server_completion_tokens": 63,
+      "tpot_basis": "client text tokens",
+      "tpot_estimate_ms": null,
+      "missing_modalities": [],
+      "epp_scores": {
+        "status": "partial",
+        "decisions": [
+          {
+            "epp_pod": "endpoint-picker-epp-86856f88d9-r8nlv",
+            "request_id": "6a458592-9211-44be-9b69-ef850235c5fc",
+            "timestamp": "2026-11-24T10:58:42.338105238Z",
+            "endpoints": [
+              {
+                "scores": {
+                  "tokenLoad": {
+                    "type": "token-load-scorer",
+                    "raw": 1,
+                    "weight": 1.0,
+                    "weighted": 1.0
+                  }
+                },
+                "selected": true,
+                "pod": "qwen3-tts-v032-689976b5c5-s9lcj",
+                "endpoint_id": "wetlab-ai/qwen3-tts-v032-689976b5c5-s9lcj-rank-0",
+                "weighted_total": null,
+                "computed_total": 1.0
+              },
+              {
+                "scores": {
+                  "tokenLoad": {
+                    "type": "token-load-scorer",
+                    "raw": 1,
+                    "weight": 1.0,
+                    "weighted": 1.0
+                  }
+                },
+                "selected": false,
+                "endpoint_id": "wetlab-ai/qwen3-tts-v032-replica-b-69cc48cfff-wcqpr-rank-0",
+                "pod": null,
+                "weighted_total": null,
+                "computed_total": 1.0
+              }
+            ],
+            "issues": [
+              "missing candidate totals",
+              "missing weighted total for wetlab-ai/qwen3-tts-v032-689976b5c5-s9lcj-rank-0",
+              "missing weighted total for wetlab-ai/qwen3-tts-v032-replica-b-69cc48cfff-wcqpr-rank-0"
+            ],
+            "status": "partial"
+          }
+        ]
+      },
+      "profile": "tokenLoadProfile",
+      "scorer": "token-load-scorer (weight 1)"
+    },
+    {
+      "iteration": 26,
+      "request_id_sent": "a3f1c6df-6bb1-46b5-9f00-1cd82e8ff6c9",
+      "request_id_response": null,
+      "request_id_gateway": null,
+      "user_agent": "voli-stream-metrics/ffc2c41db10444389a58b4dc0d558cc8/26",
+      "pod": null,
+      "upstream": null,
+      "backend_source": null,
+      "status": "ok",
+      "error": null,
+      "http_status": 200,
+      "usage": {
+        "input_tokens": 9,
+        "output_tokens": 109,
+        "total_tokens": 118,
+        "input_token_details": {
+          "text_tokens": 9,
+          "audio_tokens": 0
+        }
+      },
+      "text": "",
+      "visible_text": "",
+      "e2e_ms": 2823.8102979958057,
+      "response_pod_header": null,
+      "ttft_ms": null,
+      "ttfo_ms": null,
+      "ttfa_ms": 343.7171010009479,
+      "text_chunks": 0,
+      "audio_chunks": 6,
+      "text_gap_ms": [],
+      "audio_gap_ms": [
+        933.1472310004756,
+        441.7050299962284,
+        503.54797900945414,
+        501.14392199611757,
+        100.28911699191667
+      ],
+      "client_text_tokens": 0,
+      "server_completion_tokens": 109,
+      "tpot_basis": "client text tokens",
+      "tpot_estimate_ms": null,
+      "missing_modalities": [],
+      "epp_scores": {
+        "status": "partial",
+        "decisions": [
+          {
+            "epp_pod": "endpoint-picker-epp-86856f88d9-r8nlv",
+            "request_id": "a3f1c6df-6bb1-46b5-9f00-1cd82e8ff6c9",
+            "timestamp": "2026-11-24T10:58:44.619914329Z",
+            "endpoints": [
+              {
+                "scores": {
+                  "tokenLoad": {
+                    "type": "token-load-scorer",
+                    "raw": 1,
+                    "weight": 1.0,
+                    "weighted": 1.0
+                  }
+                },
+                "selected": false,
+                "endpoint_id": "wetlab-ai/qwen3-tts-v032-689976b5c5-s9lcj-rank-0",
+                "pod": null,
+                "weighted_total": null,
+                "computed_total": 1.0
+              },
+              {
+                "scores": {
+                  "tokenLoad": {
+                    "type": "token-load-scorer",
+                    "raw": 1,
+                    "weight": 1.0,
+                    "weighted": 1.0
+                  }
+                },
+                "selected": true,
+                "pod": "qwen3-tts-v032-replica-b-69cc48cfff-wcqpr",
+                "endpoint_id": "wetlab-ai/qwen3-tts-v032-replica-b-69cc48cfff-wcqpr-rank-0",
+                "weighted_total": null,
+                "computed_total": 1.0
+              }
+            ],
+            "issues": [
+              "missing candidate totals",
+              "missing weighted total for wetlab-ai/qwen3-tts-v032-689976b5c5-s9lcj-rank-0",
+              "missing weighted total for wetlab-ai/qwen3-tts-v032-replica-b-69cc48cfff-wcqpr-rank-0"
+            ],
+            "status": "partial"
+          }
+        ]
+      },
+      "profile": "tokenLoadProfile",
+      "scorer": "token-load-scorer (weight 1)"
+    },
+    {
+      "iteration": 27,
+      "request_id_sent": "9cc9c249-1fca-4428-9e94-b38fc59a574a",
+      "request_id_response": null,
+      "request_id_gateway": null,
+      "user_agent": "voli-stream-metrics/ffc2c41db10444389a58b4dc0d558cc8/27",
+      "pod": null,
+      "upstream": null,
+      "backend_source": null,
+      "status": "ok",
+      "error": null,
+      "http_status": 200,
+      "usage": {
+        "input_tokens": 9,
+        "output_tokens": 67,
+        "total_tokens": 76,
+        "input_token_details": {
+          "text_tokens": 9,
+          "audio_tokens": 0
+        }
+      },
+      "text": "",
+      "visible_text": "",
+      "e2e_ms": 2030.6111630052328,
+      "response_pod_header": null,
+      "ttft_ms": null,
+      "ttfo_ms": null,
+      "ttfa_ms": 346.145018003881,
+      "text_chunks": 0,
+      "audio_chunks": 4,
+      "text_gap_ms": [],
+      "audio_gap_ms": [
+        840.2349100069841,
+        540.5753919912968,
+        303.3425330067985
+      ],
+      "client_text_tokens": 0,
+      "server_completion_tokens": 67,
+      "tpot_basis": "client text tokens",
+      "tpot_estimate_ms": null,
+      "missing_modalities": [],
+      "epp_scores": {
+        "status": "partial",
+        "decisions": [
+          {
+            "epp_pod": "endpoint-picker-epp-86856f88d9-r8nlv",
+            "request_id": "9cc9c249-1fca-4428-9e94-b38fc59a574a",
+            "timestamp": "2026-11-24T10:58:47.444294595Z",
+            "endpoints": [
+              {
+                "scores": {
+                  "tokenLoad": {
+                    "type": "token-load-scorer",
+                    "raw": 1,
+                    "weight": 1.0,
+                    "weighted": 1.0
+                  }
+                },
+                "selected": true,
+                "pod": "qwen3-tts-v032-689976b5c5-s9lcj",
+                "endpoint_id": "wetlab-ai/qwen3-tts-v032-689976b5c5-s9lcj-rank-0",
+                "weighted_total": null,
+                "computed_total": 1.0
+              },
+              {
+                "scores": {
+                  "tokenLoad": {
+                    "type": "token-load-scorer",
+                    "raw": 1,
+                    "weight": 1.0,
+                    "weighted": 1.0
+                  }
+                },
+                "selected": false,
+                "endpoint_id": "wetlab-ai/qwen3-tts-v032-replica-b-69cc48cfff-wcqpr-rank-0",
+                "pod": null,
+                "weighted_total": null,
+                "computed_total": 1.0
+              }
+            ],
+            "issues": [
+              "missing candidate totals",
+              "missing weighted total for wetlab-ai/qwen3-tts-v032-689976b5c5-s9lcj-rank-0",
+              "missing weighted total for wetlab-ai/qwen3-tts-v032-replica-b-69cc48cfff-wcqpr-rank-0"
+            ],
+            "status": "partial"
+          }
+        ]
+      },
+      "profile": "tokenLoadProfile",
+      "scorer": "token-load-scorer (weight 1)"
+    },
+    {
+      "iteration": 28,
+      "request_id_sent": "5d522f57-e6c4-43b2-a216-23ff8ac8b762",
+      "request_id_response": null,
+      "request_id_gateway": null,
+      "user_agent": "voli-stream-metrics/ffc2c41db10444389a58b4dc0d558cc8/28",
+      "pod": null,
+      "upstream": null,
+      "backend_source": null,
+      "status": "ok",
+      "error": null,
+      "http_status": 200,
+      "usage": {
+        "input_tokens": 9,
+        "output_tokens": 54,
+        "total_tokens": 63,
+        "input_token_details": {
+          "text_tokens": 9,
+          "audio_tokens": 0
+        }
+      },
+      "text": "",
+      "visible_text": "",
+      "e2e_ms": 1973.854041993036,
+      "response_pod_header": null,
+      "ttft_ms": null,
+      "ttfo_ms": null,
+      "ttfa_ms": 346.2505780044012,
+      "text_chunks": 0,
+      "audio_chunks": 4,
+      "text_gap_ms": [],
+      "audio_gap_ms": [
+        1134.1775469918502,
+        433.81025800772477,
+        59.381660001236014
+      ],
+      "client_text_tokens": 0,
+      "server_completion_tokens": 54,
+      "tpot_basis": "client text tokens",
+      "tpot_estimate_ms": null,
+      "missing_modalities": [],
+      "epp_scores": {
+        "status": "partial",
+        "decisions": [
+          {
+            "epp_pod": "endpoint-picker-epp-86856f88d9-r8nlv",
+            "request_id": "5d522f57-e6c4-43b2-a216-23ff8ac8b762",
+            "timestamp": "2026-11-24T10:58:49.476298762Z",
+            "endpoints": [
+              {
+                "scores": {
+                  "tokenLoad": {
+                    "type": "token-load-scorer",
+                    "raw": 1,
+                    "weight": 1.0,
+                    "weighted": 1.0
+                  }
+                },
+                "selected": false,
+                "endpoint_id": "wetlab-ai/qwen3-tts-v032-689976b5c5-s9lcj-rank-0",
+                "pod": null,
+                "weighted_total": null,
+                "computed_total": 1.0
+              },
+              {
+                "scores": {
+                  "tokenLoad": {
+                    "type": "token-load-scorer",
+                    "raw": 1,
+                    "weight": 1.0,
+                    "weighted": 1.0
+                  }
+                },
+                "selected": true,
+                "pod": "qwen3-tts-v032-replica-b-69cc48cfff-wcqpr",
+                "endpoint_id": "wetlab-ai/qwen3-tts-v032-replica-b-69cc48cfff-wcqpr-rank-0",
+                "weighted_total": null,
+                "computed_total": 1.0
+              }
+            ],
+            "issues": [
+              "missing candidate totals",
+              "missing weighted total for wetlab-ai/qwen3-tts-v032-689976b5c5-s9lcj-rank-0",
+              "missing weighted total for wetlab-ai/qwen3-tts-v032-replica-b-69cc48cfff-wcqpr-rank-0"
+            ],
+            "status": "partial"
+          }
+        ]
+      },
+      "profile": "tokenLoadProfile",
+      "scorer": "token-load-scorer (weight 1)"
+    },
+    {
+      "iteration": 29,
+      "request_id_sent": "b4b7dd22-cb45-4904-aae4-f89d3d69c1ea",
+      "request_id_response": null,
+      "request_id_gateway": null,
+      "user_agent": "voli-stream-metrics/ffc2c41db10444389a58b4dc0d558cc8/29",
+      "pod": null,
+      "upstream": null,
+      "backend_source": null,
+      "status": "ok",
+      "error": null,
+      "http_status": 200,
+      "usage": {
+        "input_tokens": 9,
+        "output_tokens": 77,
+        "total_tokens": 86,
+        "input_token_details": {
+          "text_tokens": 9,
+          "audio_tokens": 0
+        }
+      },
+      "text": "",
+      "visible_text": "",
+      "e2e_ms": 2291.281074998551,
+      "response_pod_header": null,
+      "ttft_ms": null,
+      "ttfo_ms": null,
+      "ttfa_ms": 347.08542200678494,
+      "text_chunks": 0,
+      "audio_chunks": 4,
+      "text_gap_ms": [],
+      "audio_gap_ms": [
+        940.4116639925633,
+        505.0051180005539,
+        498.4021010022843
+      ],
+      "client_text_tokens": 0,
+      "server_completion_tokens": 77,
+      "tpot_basis": "client text tokens",
+      "tpot_estimate_ms": null,
+      "missing_modalities": [],
+      "epp_scores": {
+        "status": "partial",
+        "decisions": [
+          {
+            "epp_pod": "endpoint-picker-epp-86856f88d9-r8nlv",
+            "request_id": "b4b7dd22-cb45-4904-aae4-f89d3d69c1ea",
+            "timestamp": "2026-11-24T10:58:51.44918336Z",
+            "endpoints": [
+              {
+                "scores": {
+                  "tokenLoad": {
+                    "type": "token-load-scorer",
+                    "raw": 1,
+                    "weight": 1.0,
+                    "weighted": 1.0
+                  }
+                },
+                "selected": true,
+                "pod": "qwen3-tts-v032-689976b5c5-s9lcj",
+                "endpoint_id": "wetlab-ai/qwen3-tts-v032-689976b5c5-s9lcj-rank-0",
+                "weighted_total": null,
+                "computed_total": 1.0
+              },
+              {
+                "scores": {
+                  "tokenLoad": {
+                    "type": "token-load-scorer",
+                    "raw": 1,
+                    "weight": 1.0,
+                    "weighted": 1.0
+                  }
+                },
+                "selected": false,
+                "endpoint_id": "wetlab-ai/qwen3-tts-v032-replica-b-69cc48cfff-wcqpr-rank-0",
+                "pod": null,
+                "weighted_total": null,
+                "computed_total": 1.0
+              }
+            ],
+            "issues": [
+              "missing candidate totals",
+              "missing weighted total for wetlab-ai/qwen3-tts-v032-689976b5c5-s9lcj-rank-0",
+              "missing weighted total for wetlab-ai/qwen3-tts-v032-replica-b-69cc48cfff-wcqpr-rank-0"
+            ],
+            "status": "partial"
+          }
+        ]
+      },
+      "profile": "tokenLoadProfile",
+      "scorer": "token-load-scorer (weight 1)"
+    },
+    {
+      "iteration": 30,
+      "request_id_sent": "13756c85-1117-4ff6-9b27-0fabcacfaa7b",
+      "request_id_response": null,
+      "request_id_gateway": null,
+      "user_agent": "voli-stream-metrics/ffc2c41db10444389a58b4dc0d558cc8/30",
+      "pod": null,
+      "upstream": null,
+      "backend_source": null,
+      "status": "ok",
+      "error": null,
+      "http_status": 200,
+      "usage": {
+        "input_tokens": 9,
+        "output_tokens": 63,
+        "total_tokens": 72,
+        "input_token_details": {
+          "text_tokens": 9,
+          "audio_tokens": 0
+        }
+      },
+      "text": "",
+      "visible_text": "",
+      "e2e_ms": 2166.6341020027176,
+      "response_pod_header": null,
+      "ttft_ms": null,
+      "ttfo_ms": null,
+      "ttfa_ms": 344.0888199984329,
+      "text_chunks": 0,
+      "audio_chunks": 4,
+      "text_gap_ms": [],
+      "audio_gap_ms": [
+        1002.8610030130949,
+        522.8185429878067,
+        296.5463779983111
+      ],
+      "client_text_tokens": 0,
+      "server_completion_tokens": 63,
+      "tpot_basis": "client text tokens",
+      "tpot_estimate_ms": null,
+      "missing_modalities": [],
+      "epp_scores": {
+        "status": "partial",
+        "decisions": [
+          {
+            "epp_pod": "endpoint-picker-epp-86856f88d9-r8nlv",
+            "request_id": "13756c85-1117-4ff6-9b27-0fabcacfaa7b",
+            "timestamp": "2026-11-24T10:58:53.74081511Z",
+            "endpoints": [
+              {
+                "scores": {
+                  "tokenLoad": {
+                    "type": "token-load-scorer",
+                    "raw": 1,
+                    "weight": 1.0,
+                    "weighted": 1.0
+                  }
+                },
+                "selected": false,
+                "endpoint_id": "wetlab-ai/qwen3-tts-v032-689976b5c5-s9lcj-rank-0",
+                "pod": null,
+                "weighted_total": null,
+                "computed_total": 1.0
+              },
+              {
+                "scores": {
+                  "tokenLoad": {
+                    "type": "token-load-scorer",
+                    "raw": 1,
+                    "weight": 1.0,
+                    "weighted": 1.0
+                  }
+                },
+                "selected": true,
+                "pod": "qwen3-tts-v032-replica-b-69cc48cfff-wcqpr",
+                "endpoint_id": "wetlab-ai/qwen3-tts-v032-replica-b-69cc48cfff-wcqpr-rank-0",
+                "weighted_total": null,
+                "computed_total": 1.0
+              }
+            ],
+            "issues": [
+              "missing candidate totals",
+              "missing weighted total for wetlab-ai/qwen3-tts-v032-689976b5c5-s9lcj-rank-0",
+              "missing weighted total for wetlab-ai/qwen3-tts-v032-replica-b-69cc48cfff-wcqpr-rank-0"
+            ],
+            "status": "partial"
+          }
+        ]
+      },
+      "profile": "tokenLoadProfile",
+      "scorer": "token-load-scorer (weight 1)"
+    }
+  ],
+  "epp_scores": {
+    "profile": "tokenLoadProfile",
+    "config": {
+      "configmap": "endpoint-picker-epp",
+      "key": "tts.yaml",
+      "resource_version": "64901545",
+      "profile": "tokenLoadProfile",
+      "scorers": {
+        "tokenLoad": {
+          "type": "token-load-scorer",
+          "weight": 1.0
+        }
+      }
+    },
+    "coverage": {
+      "matched": 0,
+      "partial": 30,
+      "missing": 0,
+      "ambiguous": 0
+    },
+    "uncorrelated_records": 0,
+    "warnings": []
+  }
+}

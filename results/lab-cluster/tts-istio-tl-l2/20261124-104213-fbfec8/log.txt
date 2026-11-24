@@ -1,0 +1,56 @@
+  tokenLoadProfile (token-load-scorer (weight 1)): 60 requests, concurrency 4...
+
+Streaming results
+=================
+  Model:        bm-003
+  Endpoint:     http://127.0.0.1:8080/v1/audio/speech
+  EPP profile:  tokenLoadProfile
+  Scorer:       token-load-scorer (weight 1)
+  Output:       audio
+  Requests:     60 total, up to 4 concurrent
+  Responses:    60 valid, 0 failed, 0 missing requested output
+  Duration:     85.32 s  (0.70 requests/s)
+
+Latency (valid responses)
+-------------------------
+  Metric                                 N       Mean        P50        P99  Unit
+  -------------------------------------------------------------------------------
+  TTFA (first audio event)              60    1156.01     892.52    3076.99  ms
+  Audio chunk gap                      166    1613.43    1698.06    3512.73  ms
+  End-to-end                            60    5629.38    5486.29    8520.96  ms
+
+Routing (all requests)
+----------------------
+  Pod                                                          Count   Share
+  --------------------------------------------------------------------------
+  qwen3-tts-v032-689976b5c5-s9lcj                                 30  50.0%
+  qwen3-tts-v032-replica-b-69cc48cfff-wcqpr                       30  50.0%
+
+EPP scoring
+-----------
+  EPP scores: 0 matched, 60 partial, 0 missing, 0 ambiguous
+    Weights: tokenLoad=1 (endpoint-picker-epp / tts.yaml)
+    Per-request score tables: --debug; full decisions are saved with --output-json
+
+Latency by pod (valid responses)
+--------------------------------
+  qwen3-tts-v032-689976b5c5-s9lcj
+  Metric                                 N       Mean        P50        P99  Unit
+  -------------------------------------------------------------------------------
+  TTFA                                  30    1289.64    1237.88    2825.44  ms
+  End-to-end                            30    5649.69    5391.36    8395.10  ms
+
+  qwen3-tts-v032-replica-b-69cc48cfff-wcqpr
+  Metric                                 N       Mean        P50        P99  Unit
+  -------------------------------------------------------------------------------
+  TTFA                                  30    1022.37     459.34    3183.30  ms
+  End-to-end                            30    5609.07    5499.72    8423.93  ms
+
+
+Notes
+-----
+  TTFA and audio chunk gaps are client-observed from streamed SSE events.
+  Audio chunk gaps are a streaming proxy, not token-level ITL.
+  P99 with fewer than 100 valid requests is a rough tail indicator.
+
+Saved detailed JSON: /home/luzuccar/Projects/voli-scorer-evaluation/dashboard/data/runs/20261124-104213-fbfec8/profiles/tokenLoadProfile.json

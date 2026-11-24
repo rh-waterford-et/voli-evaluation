@@ -1,0 +1,102 @@
+{
+  "id": "20261124-110307-da52bf",
+  "name": "tts-praxis-tl-l2",
+  "created_at": "2026-11-24T11:03:07Z",
+  "status": "completed",
+  "source": "dashboard",
+  "params": {
+    "endpoint": "/v1/audio/speech",
+    "model": "bm-003",
+    "url": "http://127.0.0.1:8081",
+    "profiles": [
+      "tokenLoadProfile"
+    ],
+    "runs": [
+      {
+        "iterations": 60,
+        "concurrency": 4
+      }
+    ],
+    "prompt": null,
+    "prompts_text": null,
+    "modalities": "text,audio",
+    "voice": null,
+    "audio_format": null,
+    "image_size": null,
+    "language": null,
+    "transcription_stream": false,
+    "input_file": null,
+    "input_info": null,
+    "tokenizer": null,
+    "api_key": null,
+    "session_length": 0,
+    "session_header": "x-session-token",
+    "epp_scores": true,
+    "no_backend_lookup": false,
+    "no_usage": false,
+    "namespace": "wetlab-ai",
+    "gateway_name": "inference-gateway",
+    "gateway_container": "istio-proxy",
+    "epp_deployment": "endpoint-picker-epp",
+    "epp_container": "epp",
+    "epp_configmap": null,
+    "epp_config_key": null,
+    "gateway_wait": 10.0,
+    "epp_wait": 5.0,
+    "timeout": 600.0
+  },
+  "profiles": [
+    {
+      "name": "tokenLoadProfile",
+      "status": "completed",
+      "argv": [
+        "/home/luzuccar/Projects/voli-scorer-evaluation/dashboard/.venv/bin/python3",
+        "/home/luzuccar/Projects/voli-scorer-evaluation/scripts/stream_metrics.py",
+        "--url",
+        "http://127.0.0.1:8081",
+        "--endpoint",
+        "/v1/audio/speech",
+        "--model",
+        "bm-003",
+        "--namespace",
+        "wetlab-ai",
+        "--gateway-name",
+        "inference-gateway",
+        "--gateway-container",
+        "istio-proxy",
+        "--epp-deployment",
+        "endpoint-picker-epp",
+        "--epp-container",
+        "epp",
+        "--gateway-wait",
+        "10.0",
+        "--epp-wait",
+        "5.0",
+        "--timeout",
+        "600.0",
+        "--output-json",
+        "/home/luzuccar/Projects/voli-scorer-evaluation/dashboard/data/runs/20261124-110307-da52bf/profiles/tokenLoadProfile.json",
+        "--run",
+        "60x4",
+        "--epp-scores",
+        "--profile",
+        "tokenLoadProfile"
+      ],
+      "returncode": 0,
+      "result_file": "profiles/tokenLoadProfile.json",
+      "error": null
+    }
+  ],
+  "finished_at": "2026-11-24T11:04:38Z",
+  "summary": {
+    "profiles": [
+      "tokenLoadProfile"
+    ],
+    "run_count": 1,
+    "requests": 60,
+    "valid": 60,
+    "failed": 0,
+    "unverified": 0,
+    "empty_transcripts": 0
+  }
+}

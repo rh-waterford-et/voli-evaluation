@@ -1,0 +1,40 @@
+  tokenLoadProfile (token-load-scorer (weight 1)): 60 requests, concurrency 4...
+
+Streaming results
+=================
+  Model:        bm-003
+  Endpoint:     http://127.0.0.1:8081/v1/audio/speech
+  EPP profile:  tokenLoadProfile
+  Scorer:       token-load-scorer (weight 1)
+  Output:       audio
+  Requests:     60 total, up to 4 concurrent
+  Responses:    60 valid, 0 failed, 0 missing requested output
+  Duration:     71.96 s  (0.83 requests/s)
+
+Latency (valid responses)
+-------------------------
+  Metric                                 N       Mean        P50        P99  Unit
+  -------------------------------------------------------------------------------
+  TTFA (first audio event)              60     920.49     651.02    3128.08  ms
+  Audio chunk gap                      173    1324.65    1372.51    3290.89  ms
+  End-to-end                            60    4751.90    4674.59    8000.22  ms
+
+Routing (all requests)
+----------------------
+  Pod                                                          Count   Share
+  --------------------------------------------------------------------------
+  unknown                                                         60 100.0%
+
+EPP scoring
+-----------
+  EPP scores: 0 matched, 60 partial, 0 missing, 0 ambiguous
+    Weights: tokenLoad=1 (endpoint-picker-epp / tts.yaml)
+    Per-request score tables: --debug; full decisions are saved with --output-json
+
+Notes
+-----
+  TTFA and audio chunk gaps are client-observed from streamed SSE events.
+  Audio chunk gaps are a streaming proxy, not token-level ITL.
+  P99 with fewer than 100 valid requests is a rough tail indicator.
+
+Saved detailed JSON: /home/luzuccar/Projects/voli-scorer-evaluation/dashboard/data/runs/20261124-110307-da52bf/profiles/tokenLoadProfile.json

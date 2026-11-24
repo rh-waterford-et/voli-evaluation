@@ -1,0 +1,40 @@
+  noScorers (no scorers): 30 requests, concurrency 1...
+
+Streaming results
+=================
+  Model:        bm-003
+  Endpoint:     http://127.0.0.1:8081/v1/audio/speech
+  EPP profile:  noScorers
+  Scorer:       no scorers
+  Output:       audio
+  Requests:     30 total, up to 1 concurrent
+  Responses:    30 valid, 0 failed, 0 missing requested output
+  Duration:     64.49 s  (0.47 requests/s)
+
+Latency (valid responses)
+-------------------------
+  Metric                                 N       Mean        P50        P99  Unit
+  -------------------------------------------------------------------------------
+  TTFA (first audio event)              30     351.97     344.18     455.83  ms
+  Audio chunk gap                       89     605.74     529.65    1357.63  ms
+  End-to-end                            30    2149.32    2075.88    3489.70  ms
+
+Routing (all requests)
+----------------------
+  Pod                                                          Count   Share
+  --------------------------------------------------------------------------
+  unknown                                                         30 100.0%
+
+EPP scoring
+-----------
+  EPP scores: 0 matched, 30 partial, 0 missing, 0 ambiguous
+    Weights: no scorers (endpoint-picker-epp / tts.yaml)
+    Per-request score tables: --debug; full decisions are saved with --output-json
+
+Notes
+-----
+  TTFA and audio chunk gaps are client-observed from streamed SSE events.
+  Audio chunk gaps are a streaming proxy, not token-level ITL.
+  P99 with fewer than 100 valid requests is a rough tail indicator.
+
+Saved detailed JSON: /home/luzuccar/Projects/voli-scorer-evaluation/dashboard/data/runs/20261124-105315-39686a/profiles/noScorers.json
