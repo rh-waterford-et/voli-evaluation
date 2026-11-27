@@ -1,0 +1,77 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: model-cache-pv-node-32
+  labels:
+    app.kubernetes.io/part-of: model-serving
+    evaluation.example.com/cache-node: node-32
+spec:
+  capacity:
+    storage: 100Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: wetlab-local-model-cache
+  local:
+    path: /var/lib/wetlab-model-cache
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - example-gpu-node-32
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: model-cache-pv-node-42
+  labels:
+    app.kubernetes.io/part-of: model-serving
+    evaluation.example.com/cache-node: node-42
+spec:
+  capacity:
+    storage: 100Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: wetlab-local-model-cache
+  local:
+    path: /var/lib/wetlab-model-cache
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - example-gpu-node-42
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: model-cache-pv-node-5c
+  labels:
+    app.kubernetes.io/part-of: model-serving
+    evaluation.example.com/cache-node: node-5c
+spec:
+  capacity:
+    storage: 100Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: wetlab-local-model-cache
+  local:
+    path: /var/lib/wetlab-model-cache
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - example-gpu-node-5c

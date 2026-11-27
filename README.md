@@ -11,6 +11,8 @@ goal.
 
 - [Test matrix](docs/test_matrix.md): workloads, gateways, profiles, loads and run naming.
 - [Evaluation plan](docs/evaluation_plan.md): preparation, execution, routing evidence and result interpretation.
+- [Deployment references](deploy/README.md): sanitized KServe, MaaS and Praxis
+  examples, redeployment guidance and functional test evidence.
 
 ## Context
 

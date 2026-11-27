@@ -1,0 +1,15 @@
+# Operator installation namespace and all-namespace OperatorGroup for the
+# Red Hat OpenShift cert-manager Operator. Check for existing installations
+# before applying to another cluster.
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: cert-manager-operator
+---
+apiVersion: operators.coreos.com/v1
+kind: OperatorGroup
+metadata:
+  name: openshift-cert-manager-operator
+  namespace: cert-manager-operator
+spec:
+  targetNamespaces: []

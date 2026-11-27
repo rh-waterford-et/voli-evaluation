@@ -1,0 +1,99 @@
+# Reference snapshot of the live Wetlab workload, 12 November 2026.
+# Replicas: 1 and the pool label make this eligible for live requests.
+# Node, PVC and namespace are Wetlab-specific. Do not apply unchanged during
+# recovery: use the zero-replica template and follow docs/recovery/kserve-llmd.md.
+apiVersion: serving.kserve.io/v1alpha2
+kind: LLMInferenceService
+metadata:
+  name: kserve-bm003-node42-managed
+  namespace: model-serving
+  annotations:
+    # Match the existing Praxis-managed path; verify platform auth before GA.
+    security.opendatahub.io/enable-auth: "false"
+spec:
+  model:
+    name: bm-003
+    uri: pvc://model-cache-node-42/approved/bm-003/0c0e3051f131929182e2c023b9537f8b1c68adfe
+  storageInitializer:
+    enabled: false
+  replicas: 1
+  labels:
+    app: kserve-bm003-node42-managed
+    llm-d.ai/pool: qwen3-tts
+    llm-d.ai/engine-type: vllm-omni
+    evaluation.example.com/baseline-model: bm-003
+  template:
+    nodeSelector:
+      kubernetes.io/hostname: example-gpu-node-42
+    volumes:
+      - name: wetlab-cached-weights
+        persistentVolumeClaim:
+          claimName: model-cache-node-42
+          readOnly: true
+      - name: tmp
+        emptyDir: {}
+    containers:
+      - name: main
+        image: docker.io/vllm/vllm-omni@sha256:6b44ee504a0dc3a21eacf72e7dc5da318b7bcc8ed0e349dc928e67278414430c
+        imagePullPolicy: Never
+        command: [vllm]
+        args:
+          - serve
+          - /models/bm-003
+          - --omni
+          - --served-model-name
+          - bm-003
+          - --host
+          - 0.0.0.0
+          - --port
+          - "8000"
+          - --max-model-len
+          - "512"
+        env:
+          - name: HF_HUB_OFFLINE
+            value: "1"
+          - name: TRANSFORMERS_OFFLINE
+            value: "1"
+          - name: HF_DATASETS_OFFLINE
+            value: "1"
+          - name: HF_HOME
+            value: /tmp/huggingface
+          - name: HOME
+            value: /tmp
+        startupProbe:
+          httpGet:
+            path: /health
+            port: 8000
+            scheme: HTTP
+          failureThreshold: 60
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+            scheme: HTTP
+          failureThreshold: 6
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+            scheme: HTTP
+          failureThreshold: 10
+          periodSeconds: 10
+        resources:
+          requests:
+            cpu: "2"
+            memory: 8Gi
+            nvidia.com/gpu: "1"
+          limits:
+            cpu: "8"
+            memory: 16Gi
+            nvidia.com/gpu: "1"
+        volumeMounts:
+          - name: wetlab-cached-weights
+            mountPath: /models/bm-003
+            subPath: approved/bm-003/0c0e3051f131929182e2c023b9537f8b1c68adfe
+            readOnly: true
+          - name: tmp
+            mountPath: /tmp

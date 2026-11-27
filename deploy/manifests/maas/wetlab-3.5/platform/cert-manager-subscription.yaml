@@ -1,0 +1,14 @@
+# Used to install cert-manager on Wetlab on 24 November 2026. Review the
+# namespace, OperatorGroup, versions and images before applying elsewhere.
+# OLM may fetch bundle metadata and create an InstallPlan before approval.
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: openshift-cert-manager-operator
+  namespace: cert-manager-operator
+spec:
+  name: openshift-cert-manager-operator
+  channel: stable-v1
+  source: redhat-operators
+  sourceNamespace: openshift-marketplace
+  installPlanApproval: Manual

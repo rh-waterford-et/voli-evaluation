@@ -1,0 +1,11 @@
+# Cluster-scoped OpenShift AI configuration, not a new cluster.
+# Server defaults include NIM Managed and legacy MaaS/WVA Removed; review
+# existing components and controller impacts before use on another cluster.
+apiVersion: datasciencecluster.opendatahub.io/v2
+kind: DataScienceCluster
+metadata:
+  name: default-dsc
+spec:
+  components:
+    kserve:
+      managementState: Managed

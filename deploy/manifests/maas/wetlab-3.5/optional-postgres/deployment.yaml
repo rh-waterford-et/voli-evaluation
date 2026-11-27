@@ -1,0 +1,60 @@
+# Wetlab POC database. Before using elsewhere, configure persistent storage,
+# non-root UID/GID, service CA, image availability, backup and recovery.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: maas-postgres
+  namespace: model-serving
+  labels: {app: maas-postgres}
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels: {app: maas-postgres}
+  template:
+    metadata:
+      labels: {app: maas-postgres}
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: example-gpu-node-5c
+      securityContext:
+        runAsUser: 1001000000
+        runAsNonRoot: true
+        fsGroup: 1001000000
+        seccompProfile: {type: RuntimeDefault}
+      containers:
+        - name: postgres
+          image: registry.redhat.io/rhel9/postgresql-16@sha256:3943bfa5de044d8f033df148c0409ed826171b779f3cf3ddf537a1914960ab57
+          imagePullPolicy: Never
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities: {drop: [ALL]}
+          ports:
+            - {name: postgres, containerPort: 5432}
+          env:
+            - name: POSTGRESQL_USER
+              valueFrom: {secretKeyRef: {name: maas-postgres-credentials, key: POSTGRES_USER}}
+            - name: POSTGRESQL_PASSWORD
+              valueFrom: {secretKeyRef: {name: maas-postgres-credentials, key: POSTGRES_PASSWORD}}
+            - name: POSTGRESQL_DATABASE
+              valueFrom: {secretKeyRef: {name: maas-postgres-credentials, key: POSTGRES_DB}}
+            - {name: PGDATA, value: /var/lib/pgsql/data/userdata}
+          readinessProbe:
+            exec: {command: [/bin/sh, -c, 'pg_isready -q -U "$POSTGRESQL_USER" -d "$POSTGRESQL_DATABASE"']}
+            periodSeconds: 10
+            timeoutSeconds: 5
+          resources:
+            requests: {cpu: 250m, memory: 512Mi}
+            limits: {cpu: "1", memory: 1Gi}
+          volumeMounts:
+            - {name: data, mountPath: /var/lib/pgsql/data}
+            - {name: tls-config, mountPath: /opt/app-root/src/postgresql-cfg, readOnly: true}
+            - {name: tls-cert, mountPath: /var/run/postgres-tls, readOnly: true}
+      volumes:
+        - name: data
+          persistentVolumeClaim: {claimName: wetlab-maas-postgres}
+        - name: tls-config
+          configMap: {name: maas-postgres-tls-config}
+        - name: tls-cert
+          secret: {secretName: maas-postgres-tls, defaultMode: 288}

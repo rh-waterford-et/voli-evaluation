@@ -1,0 +1,39 @@
+# Publish this specific KServe deployment for MaaS discovery and policies.
+apiVersion: maas.opendatahub.io/v1alpha1
+kind: MaaSModelRef
+metadata:
+  name: bm-003
+  namespace: model-serving
+spec:
+  modelRef:
+    kind: LLMInferenceService
+    name: kserve-maas-bm003
+  endpointOverride: https://maas.apps.example.com/model-serving/bm-003/v1/audio/speech
+---
+# Test-only quota and identity. Adjust for the target cluster and users.
+apiVersion: maas.opendatahub.io/v1alpha1
+kind: MaaSSubscription
+metadata:
+  name: wetlab-bm003-test
+  namespace: models-as-a-service
+spec:
+  owner:
+    users: [example-user]
+  modelRefs:
+    - name: bm-003
+      namespace: model-serving
+      tokenRateLimits:
+        - {limit: 10000, window: 1m}
+---
+# Test-only authorization for the same account as the test subscription.
+apiVersion: maas.opendatahub.io/v1alpha1
+kind: MaaSAuthPolicy
+metadata:
+  name: wetlab-bm003-test
+  namespace: models-as-a-service
+spec:
+  modelRefs:
+    - name: bm-003
+      namespace: model-serving
+  subjects:
+    users: [example-user]
