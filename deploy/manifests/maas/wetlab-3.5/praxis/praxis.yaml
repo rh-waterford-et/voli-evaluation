@@ -1,0 +1,110 @@
+# Experimental reverse proxy, separate from the shared Praxis deployment.
+# Adapt the Gateway host, service and CA on another cluster.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: praxis-maas-isolated-config-v2
+  namespace: model-serving
+data:
+  praxis.yaml: |
+    insecure_options:
+      allow_private_endpoints: true
+      allow_private_upstreams: true
+    runtime:
+      upstream_ca_file: /etc/praxis/ca/ca-bundle.crt
+    listeners:
+      - name: maas-test
+        address: "0.0.0.0:8080"
+        filter_chains: [maas-test]
+    filter_chains:
+      - name: maas-test
+        filters:
+          - filter: router
+            routes:
+              - path_prefix: "/"
+                cluster: maas-gateway
+          - filter: load_balancer
+            clusters:
+              - name: maas-gateway
+                endpoints:
+                  - "maas-default-gateway-data-science-gateway-class.openshift-ingress.svc.cluster.local:443"
+                tls:
+                  sni: "maas.apps.example.com"
+---
+# Narrow egress for the isolated Praxis test pod to the dedicated MaaS gateway.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-praxis-maas-test-to-gateway
+  namespace: model-serving
+spec:
+  podSelector:
+    matchLabels: {app: praxis-maas-isolated-test}
+  policyTypes: [Egress]
+  egress:
+    - to:
+        - namespaceSelector:
+            matchLabels: {kubernetes.io/metadata.name: openshift-ingress}
+          podSelector:
+            matchLabels: {gateway.networking.k8s.io/gateway-name: maas-default-gateway}
+      ports:
+        - {protocol: TCP, port: 443}
+---
+# Dedicated in-cluster Praxis -> MaaS proof of concept; leaves shared Praxis alone.
+# Authentication is enforced by MaaS. The listener itself is HTTP and must not
+# be exposed outside the cluster without a separately designed secure ingress.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: praxis-maas
+  namespace: model-serving
+spec:
+  replicas: 1
+  strategy: {type: Recreate}
+  selector:
+    matchLabels: {app.kubernetes.io/name: praxis-maas}
+  template:
+    metadata:
+      labels:
+        app: praxis-maas-isolated-test
+        app.kubernetes.io/name: praxis-maas
+    spec:
+      nodeSelector: {kubernetes.io/hostname: example-gpu-node-42}
+      imagePullSecrets: [{name: vllm-omni-dev-pull}]
+      securityContext:
+        runAsNonRoot: true
+        seccompProfile: {type: RuntimeDefault}
+      containers:
+        - name: praxis
+          image: quay.io/rh_et_wd/praxis-ai-llmd@sha256:53abcb85dcf5f95fc2f212eedf6fc6d7f114d57d727ed840894725fff8adef93
+          imagePullPolicy: Never
+          args: [--config, /etc/praxis/praxis.yaml]
+          ports: [{name: http, containerPort: 8080}]
+          readinessProbe:
+            tcpSocket: {port: http}
+            periodSeconds: 5
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities: {drop: [ALL]}
+          resources:
+            requests: {cpu: 100m, memory: 128Mi}
+            limits: {cpu: "1", memory: 1Gi}
+          volumeMounts:
+            - {name: config, mountPath: /etc/praxis/praxis.yaml, subPath: praxis.yaml, readOnly: true}
+            - {name: ca, mountPath: /etc/praxis/ca, readOnly: true}
+      volumes:
+        - name: config
+          configMap: {name: praxis-maas-isolated-config-v2}
+        - name: ca
+          configMap: {name: praxis-maas-ingress-ca}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: praxis-maas
+  namespace: model-serving
+spec:
+  selector: {app.kubernetes.io/name: praxis-maas}
+  ports:
+    - {name: http, port: 8080, targetPort: http, protocol: TCP}
+  type: ClusterIP

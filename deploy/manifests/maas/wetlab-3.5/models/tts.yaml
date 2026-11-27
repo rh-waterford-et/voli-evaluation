@@ -1,0 +1,195 @@
+# Reconstructed from the recorded Wetlab 3.5 TTS spec and applied patches.
+# Review and validate against the destination; model replicas default to zero.
+---
+apiVersion: serving.kserve.io/v1alpha2
+kind: LLMInferenceService
+metadata:
+  name: kserve-maas-bm003
+  namespace: model-serving
+spec:
+  labels:
+    llm-d.ai/engine-type: vllm-omni
+  model:
+    name: bm-003
+    uri: pvc://model-cache-node-42/approved/bm-003/0c0e3051f131929182e2c023b9537f8b1c68adfe
+  replicas: 0
+  storageInitializer:
+    enabled: false
+  template:
+    containers:
+    - args:
+      - serve
+      - "/models/bm-003"
+      - "--omni"
+      - "--served-model-name"
+      - bm-003
+      - "--host"
+      - 0.0.0.0
+      - "--port"
+      - '8000'
+      - "--max-model-len"
+      - '512'
+      - "--enable-ssl-refresh"
+      - "--ssl-certfile"
+      - "/var/run/kserve/tls/tls.crt"
+      - "--ssl-keyfile"
+      - "/var/run/kserve/tls/tls.key"
+      command:
+      - vllm
+      env:
+      - name: HF_HUB_OFFLINE
+        value: '1'
+      - name: TRANSFORMERS_OFFLINE
+        value: '1'
+      - name: HF_DATASETS_OFFLINE
+        value: '1'
+      - name: HF_HOME
+        value: "/tmp/huggingface"
+      - name: HOME
+        value: "/tmp"
+      image: docker.io/vllm/vllm-omni@sha256:6b44ee504a0dc3a21eacf72e7dc5da318b7bcc8ed0e349dc928e67278414430c
+      imagePullPolicy: Never
+      livenessProbe:
+        failureThreshold: 10
+        httpGet:
+          path: "/health"
+          port: 8000
+          scheme: HTTPS
+        periodSeconds: 10
+      name: main
+      readinessProbe:
+        failureThreshold: 6
+        httpGet:
+          path: "/health"
+          port: 8000
+          scheme: HTTPS
+        periodSeconds: 10
+      resources:
+        limits:
+          cpu: '8'
+          memory: 16Gi
+          nvidia.com/gpu: '1'
+        requests:
+          cpu: '2'
+          memory: 8Gi
+          nvidia.com/gpu: '1'
+      startupProbe:
+        failureThreshold: 60
+        httpGet:
+          path: "/health"
+          port: 8000
+          scheme: HTTPS
+        periodSeconds: 10
+      volumeMounts:
+      - mountPath: "/models/bm-003"
+        name: wetlab-cached-weights
+        readOnly: true
+        subPath: approved/bm-003/0c0e3051f131929182e2c023b9537f8b1c68adfe
+      - mountPath: "/tmp"
+        name: tmp
+    nodeSelector:
+      kubernetes.io/hostname: example-gpu-node-42
+    volumes:
+    - name: wetlab-cached-weights
+      persistentVolumeClaim:
+        claimName: model-cache-node-42
+        readOnly: true
+    - emptyDir: {}
+      name: tmp
+  router:
+    gateway:
+      refs:
+      - name: maas-default-gateway
+        namespace: openshift-ingress
+    route:
+      http:
+        spec:
+          rules:
+          - name: tts-model-path
+            matches:
+            - path:
+                type: PathPrefix
+                value: "/model-serving/kserve-maas-bm003/v1/audio/speech"
+            filters:
+            - type: URLRewrite
+              urlRewrite:
+                path:
+                  type: ReplacePrefixMatch
+                  replacePrefixMatch: "/v1/audio/speech"
+            backendRefs:
+            - group: inference.networking.k8s.io
+              kind: InferencePool
+              name: kserve-maas-bm003-inference-pool
+              port: 8000
+          - name: tts-publisher-path
+            matches:
+            - path:
+                type: PathPrefix
+                value: "/publishers/model-serving/models/bm-003/v1/audio/speech"
+            filters:
+            - type: URLRewrite
+              urlRewrite:
+                path:
+                  type: ReplacePrefixMatch
+                  replacePrefixMatch: "/v1/audio/speech"
+            backendRefs:
+            - group: inference.networking.k8s.io
+              kind: InferencePool
+              name: kserve-maas-bm003-inference-pool
+              port: 8000
+          - name: tts-maas-modelref-path
+            matches:
+            - path:
+                type: PathPrefix
+                value: "/model-serving/bm-003/v1/audio/speech"
+            filters:
+            - type: URLRewrite
+              urlRewrite:
+                path:
+                  type: ReplacePrefixMatch
+                  replacePrefixMatch: "/v1/audio/speech"
+            backendRefs:
+            - group: inference.networking.k8s.io
+              kind: InferencePool
+              name: kserve-maas-bm003-inference-pool
+              port: 8000
+    scheduler:
+      replicas: 1
+      config:
+        inline:
+          apiVersion: llm-d.ai/v1alpha1
+          kind: EndpointPickerConfig
+          plugins:
+          - type: single-profile-handler
+          - type: queue-scorer
+          - type: kv-cache-utilization-scorer
+          - type: max-score-picker
+          - name: tts-passthrough
+            type: passthrough-parser
+          - type: metrics-data-source
+            parameters:
+              scheme: https
+          requestHandler:
+            parsers:
+            - pluginRef: tts-passthrough
+          schedulingProfiles:
+          - name: default
+            plugins:
+            - pluginRef: queue-scorer
+              weight: 2
+            - pluginRef: kv-cache-utilization-scorer
+              weight: 2
+            - pluginRef: max-score-picker
+      template:
+        nodeSelector:
+          kubernetes.io/hostname: example-gpu-node-42
+        containers:
+        - name: main
+          imagePullPolicy: Never
+          startupProbe:
+            grpc:
+              port: 9003
+              service: liveness
+            periodSeconds: 5
+            failureThreshold: 60
+          resources: {}

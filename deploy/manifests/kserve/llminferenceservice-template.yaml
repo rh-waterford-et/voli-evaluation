@@ -1,0 +1,88 @@
+# Copy and replace EVERY <...> value before using. Start at zero replicas.
+# Set the final pool label before creation: KServe includes labels in the
+# Deployment selector, which is immutable. The pod will join that pool as
+# soon as it is started and ready.
+apiVersion: serving.kserve.io/v1alpha2
+kind: LLMInferenceService
+metadata:
+  name: <service-name>
+  namespace: <namespace>
+  annotations:
+    # Matches the Wetlab test; platform owners must review authentication.
+    security.opendatahub.io/enable-auth: "false"
+spec:
+  model:
+    name: <served-model-name>
+    uri: pvc://<model-pvc>/<model-subdirectory>
+  storageInitializer:
+    enabled: false
+  replicas: 0
+  labels:
+    app: <service-name>
+    llm-d.ai/pool: <existing-pool-selector-value>
+    llm-d.ai/engine-type: vllm-omni
+  # Deliberately omit router: the existing stack owns routing and EPP.
+  template:
+    nodeSelector:
+      kubernetes.io/hostname: <cached-model-node>
+    volumes:
+      - name: cached-weights
+        persistentVolumeClaim:
+          claimName: <model-pvc>
+          readOnly: true
+      - name: tmp
+        emptyDir: {}
+    containers:
+      - name: main
+        image: <approved-image-reference-with-digest>
+        imagePullPolicy: Never
+        command: [vllm]
+        args: [serve, /models/model, --omni, --served-model-name, <served-model-name>, --host, 0.0.0.0, --port, "8000", --max-model-len, "512"]
+        env:
+          - name: HF_HUB_OFFLINE
+            value: "1"
+          - name: TRANSFORMERS_OFFLINE
+            value: "1"
+          - name: HF_DATASETS_OFFLINE
+            value: "1"
+          - name: HF_HOME
+            value: /tmp/huggingface
+          - name: HOME
+            value: /tmp
+        startupProbe:
+          httpGet:
+            path: /health
+            port: 8000
+            scheme: HTTP
+          failureThreshold: 60
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+            scheme: HTTP
+          failureThreshold: 6
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+            scheme: HTTP
+          failureThreshold: 10
+          periodSeconds: 10
+        resources:
+          requests:
+            cpu: "2"
+            memory: 8Gi
+            nvidia.com/gpu: "1"
+          limits:
+            cpu: "8"
+            memory: 16Gi
+            nvidia.com/gpu: "1"
+        volumeMounts:
+          - name: cached-weights
+            mountPath: /models/model
+            subPath: <model-subdirectory>
+            readOnly: true
+          - name: tmp
+            mountPath: /tmp

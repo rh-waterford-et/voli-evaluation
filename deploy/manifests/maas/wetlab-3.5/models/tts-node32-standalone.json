@@ -1,0 +1,141 @@
+{
+  "apiVersion": "serving.kserve.io/v1alpha2",
+  "kind": "LLMInferenceService",
+  "metadata": {
+    "name": "kserve-maas-bm003-node32",
+    "namespace": "model-serving"
+  },
+  "spec": {
+    "labels": {
+      "llm-d.ai/engine-type": "vllm-omni",
+      "evaluation.example.com/model": "bm-003"
+    },
+    "model": {
+      "name": "bm-003",
+      "uri": "pvc://model-cache-node-32/approved/bm-003/0c0e3051f131929182e2c023b9537f8b1c68adfe"
+    },
+    "replicas": 0,
+    "storageInitializer": {
+      "enabled": false
+    },
+    "template": {
+      "containers": [
+        {
+          "args": [
+            "serve",
+            "/models/bm-003",
+            "--omni",
+            "--served-model-name",
+            "bm-003",
+            "--host",
+            "0.0.0.0",
+            "--port",
+            "8000",
+            "--max-model-len",
+            "512",
+            "--enable-ssl-refresh",
+            "--ssl-certfile",
+            "/var/run/kserve/tls/tls.crt",
+            "--ssl-keyfile",
+            "/var/run/kserve/tls/tls.key"
+          ],
+          "command": [
+            "vllm"
+          ],
+          "env": [
+            {
+              "name": "HF_HUB_OFFLINE",
+              "value": "1"
+            },
+            {
+              "name": "TRANSFORMERS_OFFLINE",
+              "value": "1"
+            },
+            {
+              "name": "HF_DATASETS_OFFLINE",
+              "value": "1"
+            },
+            {
+              "name": "HF_HOME",
+              "value": "/tmp/huggingface"
+            },
+            {
+              "name": "HOME",
+              "value": "/tmp"
+            }
+          ],
+          "image": "docker.io/vllm/vllm-omni@sha256:6b44ee504a0dc3a21eacf72e7dc5da318b7bcc8ed0e349dc928e67278414430c",
+          "imagePullPolicy": "Never",
+          "livenessProbe": {
+            "failureThreshold": 10,
+            "httpGet": {
+              "path": "/health",
+              "port": 8000,
+              "scheme": "HTTPS"
+            },
+            "periodSeconds": 10
+          },
+          "name": "main",
+          "readinessProbe": {
+            "failureThreshold": 6,
+            "httpGet": {
+              "path": "/health",
+              "port": 8000,
+              "scheme": "HTTPS"
+            },
+            "periodSeconds": 10
+          },
+          "resources": {
+            "limits": {
+              "cpu": "8",
+              "memory": "16Gi",
+              "nvidia.com/gpu": "1"
+            },
+            "requests": {
+              "cpu": "2",
+              "memory": "8Gi",
+              "nvidia.com/gpu": "1"
+            }
+          },
+          "startupProbe": {
+            "failureThreshold": 60,
+            "httpGet": {
+              "path": "/health",
+              "port": 8000,
+              "scheme": "HTTPS"
+            },
+            "periodSeconds": 10
+          },
+          "volumeMounts": [
+            {
+              "mountPath": "/models/bm-003",
+              "name": "wetlab-cached-weights",
+              "readOnly": true,
+              "subPath": "approved/bm-003/0c0e3051f131929182e2c023b9537f8b1c68adfe"
+            },
+            {
+              "mountPath": "/tmp",
+              "name": "tmp"
+            }
+          ]
+        }
+      ],
+      "nodeSelector": {
+        "kubernetes.io/hostname": "example-gpu-node-32"
+      },
+      "volumes": [
+        {
+          "name": "wetlab-cached-weights",
+          "persistentVolumeClaim": {
+            "claimName": "model-cache-node-32",
+            "readOnly": true
+          }
+        },
+        {
+          "emptyDir": {},
+          "name": "tmp"
+        }
+      ]
+    }
+  }
+}

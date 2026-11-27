@@ -1,0 +1,18 @@
+# Merge patch for Authorino. Validate against the installed Operator before use.
+# Changes roll the Authorino pod; do not apply without explicit approval.
+spec:
+  imagePullPolicy: IfNotPresent
+  listener:
+    tls:
+      enabled: true
+      certSecretRef:
+        name: authorino-server-cert
+  volumes:
+    items:
+      - name: openshift-service-ca
+        mountPath: /etc/ssl/certs/openshift-service-ca
+        configMaps:
+          - openshift-service-ca.crt
+        items:
+          - key: service-ca.crt
+            path: service-ca-bundle.crt

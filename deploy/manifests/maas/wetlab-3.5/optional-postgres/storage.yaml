@@ -1,0 +1,49 @@
+# Wetlab-specific PostgreSQL local storage. On 24 November 2026 the backing
+# directory was prepared on node 5c. Adapt and verify node, path, namespace,
+# capacity and permissions before using this on a different cluster. A local PV
+# does not reserve space, enforce the listed size, or provide backups. The Red
+# Hat MaaS companion guide uses 20Gi for its example PostgreSQL PVC.
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: wetlab-maas-local
+provisioner: kubernetes.io/no-provisioner
+volumeBindingMode: WaitForFirstConsumer
+reclaimPolicy: Retain
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: wetlab-maas-postgres-pv
+spec:
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Filesystem
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: wetlab-maas-local
+  local:
+    path: /var/lib/wetlab-maas-postgres
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - example-gpu-node-5c
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: wetlab-maas-postgres
+  namespace: model-serving
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
+  storageClassName: wetlab-maas-local
+  volumeName: wetlab-maas-postgres-pv

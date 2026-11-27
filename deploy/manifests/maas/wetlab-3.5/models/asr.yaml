@@ -1,0 +1,225 @@
+# Adapted from the verified Wetlab configuration; model starts at zero replicas.
+# Isolated ASR stack, using the cache on node 42. The TTS stack is separate.
+apiVersion: serving.kserve.io/v1alpha2
+kind: LLMInferenceService
+metadata:
+  name: kserve-maas-qwen3-asr
+  namespace: model-serving
+spec:
+  model:
+    name: qwen3-asr
+    uri: pvc://model-cache-node-42/approved/qwen3-asr-0.6b
+  storageInitializer: {enabled: false}
+  replicas: 0
+  labels:
+    llm-d.ai/engine-type: vllm-omni
+    evaluation.example.com/model: qwen3-asr
+  router:
+    gateway:
+      refs:
+        - {name: maas-default-gateway, namespace: openshift-ingress}
+    scheduler:
+      replicas: 1
+      # KServe's preset also sets app.kubernetes.io/name. Replacing this map
+      # allows this managed pool to select both separately managed ASR pods.
+      # Verified on Wetlab OpenShift AI 3.5.4; retest after controller upgrades.
+      pool:
+        spec:
+          appProtocol: http
+          endpointPickerRef:
+            group: ''
+            kind: Service
+            name: kserve-maas-qwen3-asr-epp-service
+            port: {number: 9002}
+            failureMode: FailOpen
+          selector:
+            matchLabels:
+              $patch: replace
+              evaluation.example.com/model: qwen3-asr
+              app.kubernetes.io/part-of: llminferenceservice
+              kserve.io/component: workload
+          targetPorts:
+            - {number: 8000}
+      config:
+        inline:
+          apiVersion: llm-d.ai/v1alpha1
+          kind: EndpointPickerConfig
+          plugins:
+            - {type: single-profile-handler}
+            - {type: queue-scorer}
+            - {type: kv-cache-utilization-scorer}
+            - {type: max-score-picker}
+            - {name: audio-passthrough, type: passthrough-parser}
+            - {type: metrics-data-source, parameters: {scheme: https}}
+          requestHandler:
+            parsers:
+              - {pluginRef: audio-passthrough}
+          schedulingProfiles:
+            - name: default
+              plugins:
+                - {pluginRef: queue-scorer, weight: 2}
+                - {pluginRef: kv-cache-utilization-scorer, weight: 2}
+                - {pluginRef: max-score-picker}
+      template:
+        nodeSelector: {kubernetes.io/hostname: example-gpu-node-42}
+        containers:
+          - name: main
+            imagePullPolicy: Never
+            resources:
+              requests: {cpu: '1', memory: 2Gi}
+              limits: {cpu: '2', memory: 4Gi}
+            startupProbe:
+              grpc: {port: 9003, service: liveness}
+              failureThreshold: 60
+              periodSeconds: 5
+    route:
+      http:
+        spec:
+          rules:
+            - name: asr-maas-modelref-path
+              matches:
+                - path: {type: PathPrefix, value: /model-serving/qwen3-asr/v1/audio/transcriptions}
+              filters:
+                - type: URLRewrite
+                  urlRewrite:
+                    path: {type: ReplacePrefixMatch, replacePrefixMatch: /v1/audio/transcriptions}
+              backendRefs:
+                - {group: inference.networking.k8s.io, kind: InferencePool, name: kserve-maas-qwen3-asr-inference-pool, port: 8000}
+  template:
+    nodeSelector: {kubernetes.io/hostname: example-gpu-node-42}
+    volumes:
+      - name: wetlab-cached-weights
+        persistentVolumeClaim: {claimName: model-cache-node-42, readOnly: true}
+      - {name: tmp, emptyDir: {}}
+    containers:
+      - name: main
+        image: docker.io/vllm/vllm-omni@sha256:6b44ee504a0dc3a21eacf72e7dc5da318b7bcc8ed0e349dc928e67278414430c
+        imagePullPolicy: Never
+        command: [vllm]
+        args: [serve, /models/qwen3-asr, --served-model-name, qwen3-asr, --host, 0.0.0.0, --port, '8000', --dtype, auto, --gpu-memory-utilization, '0.65', --max-model-len, '8192', --enable-ssl-refresh, --ssl-certfile, /var/run/kserve/tls/tls.crt, --ssl-keyfile, /var/run/kserve/tls/tls.key]
+        env:
+          - {name: HF_HUB_OFFLINE, value: '1'}
+          - {name: TRANSFORMERS_OFFLINE, value: '1'}
+          - {name: HF_DATASETS_OFFLINE, value: '1'}
+          - {name: HF_HOME, value: /tmp/huggingface}
+          - {name: HOME, value: /tmp}
+        startupProbe:
+          httpGet: {path: /health, port: 8000, scheme: HTTPS}
+          failureThreshold: 60
+          periodSeconds: 10
+        readinessProbe:
+          httpGet: {path: /health, port: 8000, scheme: HTTPS}
+          failureThreshold: 6
+          periodSeconds: 10
+        livenessProbe:
+          httpGet: {path: /health, port: 8000, scheme: HTTPS}
+          failureThreshold: 10
+          periodSeconds: 10
+        resources:
+          requests: {cpu: '2', memory: 8Gi, nvidia.com/gpu: '1'}
+          limits: {cpu: '8', memory: 12Gi, nvidia.com/gpu: '1'}
+        volumeMounts:
+          - {name: wetlab-cached-weights, mountPath: /models/qwen3-asr, subPath: approved/qwen3-asr-0.6b, readOnly: true}
+          - {name: tmp, mountPath: /tmp}
+---
+# Adapted from the verified Wetlab configuration; model starts at zero replicas.
+# Workload-only until an appropriate shared routing design is validated.
+apiVersion: serving.kserve.io/v1alpha2
+kind: LLMInferenceService
+metadata:
+  name: kserve-maas-qwen3-asr-node32
+  namespace: model-serving
+spec:
+  model:
+    name: qwen3-asr
+    uri: pvc://model-cache-node-32/approved/qwen3-asr-0.6b
+  storageInitializer:
+    enabled: false
+  replicas: 0
+  labels:
+    llm-d.ai/engine-type: vllm-omni
+    evaluation.example.com/model: qwen3-asr
+  template:
+    nodeSelector:
+      kubernetes.io/hostname: example-gpu-node-32
+    volumes:
+    - name: wetlab-cached-weights
+      persistentVolumeClaim:
+        claimName: model-cache-node-32
+        readOnly: true
+    - name: tmp
+      emptyDir: {}
+    containers:
+    - name: main
+      image: docker.io/vllm/vllm-omni@sha256:6b44ee504a0dc3a21eacf72e7dc5da318b7bcc8ed0e349dc928e67278414430c
+      imagePullPolicy: Never
+      command:
+      - vllm
+      args:
+      - serve
+      - /models/qwen3-asr
+      - --served-model-name
+      - qwen3-asr
+      - --host
+      - 0.0.0.0
+      - --port
+      - '8000'
+      - --dtype
+      - auto
+      - --gpu-memory-utilization
+      - '0.65'
+      - --max-model-len
+      - '8192'
+      - --enable-ssl-refresh
+      - --ssl-certfile
+      - /var/run/kserve/tls/tls.crt
+      - --ssl-keyfile
+      - /var/run/kserve/tls/tls.key
+      env:
+      - name: HF_HUB_OFFLINE
+        value: '1'
+      - name: TRANSFORMERS_OFFLINE
+        value: '1'
+      - name: HF_DATASETS_OFFLINE
+        value: '1'
+      - name: HF_HOME
+        value: /tmp/huggingface
+      - name: HOME
+        value: /tmp
+      startupProbe:
+        httpGet:
+          path: /health
+          port: 8000
+          scheme: HTTPS
+        failureThreshold: 60
+        periodSeconds: 10
+      readinessProbe:
+        httpGet:
+          path: /health
+          port: 8000
+          scheme: HTTPS
+        failureThreshold: 6
+        periodSeconds: 10
+      livenessProbe:
+        httpGet:
+          path: /health
+          port: 8000
+          scheme: HTTPS
+        failureThreshold: 10
+        periodSeconds: 10
+      resources:
+        requests:
+          cpu: '2'
+          memory: 8Gi
+          nvidia.com/gpu: '1'
+        limits:
+          cpu: '8'
+          memory: 10Gi
+          nvidia.com/gpu: '1'
+      volumeMounts:
+      - name: wetlab-cached-weights
+        mountPath: /models/qwen3-asr
+        subPath: approved/qwen3-asr-0.6b
+        readOnly: true
+      - name: tmp
+        mountPath: /tmp

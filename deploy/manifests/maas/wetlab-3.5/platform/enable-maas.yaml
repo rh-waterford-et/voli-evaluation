@@ -1,0 +1,8 @@
+# Merge patch for the existing cluster-wide DataScienceCluster/default-dsc.
+# Apply only after database, auth, gateway, connectivity and image review.
+spec:
+  components:
+    aigateway:
+      managementState: Managed
+      modelsAsAService:
+        managementState: Managed

@@ -1,0 +1,6 @@
+# Merge patch for the existing cluster-wide DataScienceCluster/default-dsc.
+# MaaS is enabled separately after the AI Gateway operator is ready.
+spec:
+  components:
+    aigateway:
+      managementState: Managed

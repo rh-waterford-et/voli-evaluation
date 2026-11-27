@@ -1,0 +1,56 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: model-cache-node-32
+  namespace: model-serving
+  labels:
+    app.kubernetes.io/part-of: model-serving
+spec:
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Filesystem
+  storageClassName: wetlab-local-model-cache
+  resources:
+    requests:
+      storage: 100Gi
+  selector:
+    matchLabels:
+      evaluation.example.com/cache-node: node-32
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: model-cache-node-42
+  namespace: model-serving
+  labels:
+    app.kubernetes.io/part-of: model-serving
+spec:
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Filesystem
+  storageClassName: wetlab-local-model-cache
+  resources:
+    requests:
+      storage: 100Gi
+  selector:
+    matchLabels:
+      evaluation.example.com/cache-node: node-42
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: model-cache-node-5c
+  namespace: model-serving
+  labels:
+    app.kubernetes.io/part-of: model-serving
+spec:
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Filesystem
+  storageClassName: wetlab-local-model-cache
+  resources:
+    requests:
+      storage: 100Gi
+  selector:
+    matchLabels:
+      evaluation.example.com/cache-node: node-5c

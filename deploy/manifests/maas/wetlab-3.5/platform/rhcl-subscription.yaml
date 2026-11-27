@@ -1,0 +1,14 @@
+# Used to install RHCL on Wetlab on 24 November 2026. Review versions, images,
+# and installation effects before applying on another cluster. OLM can fetch
+# bundle metadata and create an InstallPlan even with manual approval.
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: rhcl-operator
+  namespace: openshift-operators
+spec:
+  name: rhcl-operator
+  channel: stable-1.4
+  source: redhat-operators
+  sourceNamespace: openshift-marketplace
+  installPlanApproval: Manual
